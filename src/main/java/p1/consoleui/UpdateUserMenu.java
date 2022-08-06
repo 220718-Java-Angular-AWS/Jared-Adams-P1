@@ -1,13 +1,22 @@
-package p1.Inputs.UserInput;
+package p1.consoleui;
 
+import p1.consoleui.View;
+import p1.consoleui.ViewManager;
 import p1.pojos.User;
 import p1.services.UserService;
 
 import java.util.Scanner;
 
-public class UpdateUser {
+public class UpdateUserMenu extends View {
 
-    public void updateUser() {
+    public UpdateUserMenu() {
+        viewName = "UpdateUser";
+        viewManager = ViewManager.getViewManager();
+    }
+
+
+    @Override
+    public void renderView() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("=========== Update Existing User ===========");
@@ -29,5 +38,7 @@ public class UpdateUser {
         userService.updateUser(updateUser);
 
         System.out.println("User Updated");
+
+        viewManager.navigate("MainMenu");
     }
 }

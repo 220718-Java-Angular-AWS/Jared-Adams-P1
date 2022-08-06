@@ -1,64 +1,39 @@
 package p1;
 
-import p1.Inputs.RequestInput.*;
-import p1.Inputs.UserInput.*;
+import p1.consoleui.*;
+
+import p1.consoleui.guestinputs.GuestMenu;
+import p1.consoleui.guestinputs.LogIn;
+import p1.consoleui.guestinputs.NewUserMenu;
+import p1.consoleui.userinputs.*;
+import p1.consoleui.UpdateUserMenu;
 
 public class Main {
     public static void main(String[] args) {
-        /*
-        NewUser newUser = new NewUser();
-        newUser.newUser();
-        */
-
-        /*
-        UpdateUser updateUser = new UpdateUser();
-        updateUser.updateUser();
-        */
-
-        /*
-        UpdateRequest updateRequest = new UpdateRequest();
-        updateRequest.updateRequest();
-        */
-
-        /*
-        CheckUser checkUser = new CheckUser();
-        checkUser.checkUser();
-        */
-
-        /*
-        CheckAllUsers checkAllUsers = new CheckAllUsers();
-        checkAllUsers.checkAllUsers();
-         */
-
-        /*
-        DeleteUser delete = new DeleteUser();
-        delete.deleteUser();
-        */
-
-        /*
-        NewRequest newRequest = new NewRequest();
-        newRequest.newRequest();
-        */
-
-        /*
-        Round to the nearest 100th
-        CheckRequest checkRequest = new CheckRequest();
-        checkRequest.checkRequest();
-        */
-
-        /*
-        ViewAllRequests viewAllRequests = new ViewAllRequests();
-        viewAllRequests.viewAllRequests();
-         */
-
-        DeleteRequest deleteRequest = new DeleteRequest();
-        deleteRequest.deleteRequest();
 
 
+        ViewManager viewManager = ViewManager.getViewManager();
+        viewManager.registerView(new MainMenu());
+        viewManager.registerView(new NewRequest());
+        viewManager.registerView(new UpdateRequest());
+        viewManager.registerView(new CheckRequest());
+        viewManager.registerView(new ViewAllRequests());
+        viewManager.registerView(new DeleteRequest());
+        viewManager.registerView(new GuestMenu());
+        viewManager.registerView(new LogIn());
+        viewManager.registerView(new NewUserMenu());
+        viewManager.registerView(new UpdateUserMenu());
+        viewManager.registerView(new CheckUserMenu());
+        viewManager.registerView(new CheckAllUsersMenu());
+        viewManager.registerView(new DeleteUserMenu());
 
+        viewManager.navigate("GuestMenu");
 
-
+        while (viewManager.isOn()) {
+            viewManager.render();
+        }
     }
-
 }
+
+
 

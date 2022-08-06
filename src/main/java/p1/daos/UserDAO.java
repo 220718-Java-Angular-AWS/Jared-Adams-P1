@@ -21,7 +21,7 @@ public class UserDAO implements DataSourceCRUD<User> {
 
     @Override
     public void create(User user) {
-        try{
+        try {
             String sql = "INSERT INTO users (first_name, last_name, email, username, password)" +
                     " VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -33,7 +33,7 @@ public class UserDAO implements DataSourceCRUD<User> {
 
             pstmt.executeUpdate();
 
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -48,7 +48,7 @@ public class UserDAO implements DataSourceCRUD<User> {
             pstmt.setInt(1, id);
             ResultSet results = pstmt.executeQuery();
 
-            if(results.next()) {
+            if (results.next()) {
                 user.setUserId(results.getInt("user_id"));
                 user.setFirstName(results.getString("first_name"));
                 user.setLastName(results.getString("last_name"));
@@ -57,7 +57,7 @@ public class UserDAO implements DataSourceCRUD<User> {
                 user.setPassword(results.getString("password"));
 
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return user;
@@ -71,7 +71,7 @@ public class UserDAO implements DataSourceCRUD<User> {
             PreparedStatement pstmt = connection.prepareStatement(sql);
             ResultSet results = pstmt.executeQuery();
 
-            while(results.next()) {
+            while (results.next()) {
                 User user = new User();
                 user.setUserId(results.getInt("user_id"));
                 user.setFirstName(results.getString("first_name"));
@@ -82,7 +82,7 @@ public class UserDAO implements DataSourceCRUD<User> {
                 userList.add(user);
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return userList;
@@ -104,7 +104,7 @@ public class UserDAO implements DataSourceCRUD<User> {
 
             pstmt.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -112,14 +112,54 @@ public class UserDAO implements DataSourceCRUD<User> {
 
     @Override
     public void delete(int id) {
-        try{
+        try {
             String sql = "DELETE FROM users WHERE user_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, id);
+
             pstmt.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public User logIn(User user) {
+        try {
+            String sql = "SELECT * FROM users WHERE email = ? AND password = ? OR username = ? AND password = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, user.getEmail());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setString(3, user.getUsername());
+            pstmt.setString(4, user.getPassword());
+
+            ResultSet results = pstmt.executeQuery();
+
+
+            if (results.next()) {
+                User authenticateUser = new User();
+
+                authenticateUser.setUserId(results.getInt("user_id"));
+                authenticateUser.setFirstName(results.getString("first_name"));
+                authenticateUser.setLastName(results.getString("last_name"));
+                authenticateUser.setEmail(results.getString("email"));
+                authenticateUser.setUsername(results.getString("username"));
+                authenticateUser.setPassword(results.getString("password"));
+
+
+                if (authenticateUser.getPassword().equals(user.getPassword())) {
+                    System.out.println("Logging in...");
+                }
+            } else {
+                throw new Exception();
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException("Incorrect Username/Email or Password");
+        }
+        return user;
     }
 }

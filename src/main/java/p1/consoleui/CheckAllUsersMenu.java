@@ -1,14 +1,19 @@
-package p1.Inputs.UserInput;
+package p1.consoleui;
 
 import p1.pojos.User;
 import p1.services.UserService;
 
 import java.util.List;
 
-public class CheckAllUsers {
+public class CheckAllUsersMenu extends View{
 
-    public void checkAllUsers() {
+    public CheckAllUsersMenu() {
+        viewName = "CheckAllUsers";
+        viewManager = ViewManager.getViewManager();
+    }
 
+    @Override
+    public void renderView() {
         System.out.println("============ All Users ============");
 
         UserService userService = new UserService();
@@ -18,5 +23,6 @@ public class CheckAllUsers {
             System.out.println(U);
         }
 
+        viewManager.navigate("MainMenu");
     }
 }

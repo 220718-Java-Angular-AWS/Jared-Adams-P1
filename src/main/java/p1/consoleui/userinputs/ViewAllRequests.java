@@ -1,14 +1,22 @@
-package p1.Inputs.RequestInput;
+package p1.consoleui.userinputs;
 
+import p1.consoleui.View;
+import p1.consoleui.ViewManager;
 import p1.pojos.Request;
 import p1.services.RequestService;
 
 import java.util.List;
 
-public class ViewAllRequests {
+public class ViewAllRequests extends View {
 
-    public void viewAllRequests() {
 
+    public ViewAllRequests() {
+        viewName = "ViewAllRequests";
+        viewManager = ViewManager.getViewManager();
+    }
+
+    @Override
+    public void renderView() {
         System.out.println("========== All Requests ==========");
 
         RequestService requestService = new RequestService();
@@ -18,5 +26,6 @@ public class ViewAllRequests {
             System.out.println(r);
         }
 
+        viewManager.navigate("MainMenu");
     }
 }

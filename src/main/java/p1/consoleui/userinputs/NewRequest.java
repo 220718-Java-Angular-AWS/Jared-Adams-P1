@@ -1,12 +1,20 @@
-package p1.Inputs.RequestInput;
+package p1.consoleui.userinputs;
 
+import p1.consoleui.View;
+import p1.consoleui.ViewManager;
 import p1.daos.RequestDAO;
 import p1.pojos.Request;
 
 import java.util.Scanner;
 
-public class NewRequest {
-    public void newRequest() {
+public class NewRequest extends View {
+    public NewRequest() {
+        viewName = "NewRequest";
+        viewManager = ViewManager.getViewManager();
+    }
+
+    @Override
+    public void renderView() {
         Scanner sc = new Scanner(System.in);
         System.out.println("=========== New Request ===========");
         System.out.print("Enter Title: ");
@@ -23,5 +31,7 @@ public class NewRequest {
         dao.create(newRequest);
 
         System.out.println("Request added");
+
+        viewManager.navigate("MainMenu");
     }
 }

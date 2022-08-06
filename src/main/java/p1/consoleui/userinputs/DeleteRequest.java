@@ -1,12 +1,20 @@
-package p1.Inputs.RequestInput;
+package p1.consoleui.userinputs;
 
+import p1.consoleui.View;
+import p1.consoleui.ViewManager;
 import p1.services.RequestService;
 
 import java.util.Scanner;
 
-public class DeleteRequest {
+public class DeleteRequest extends View {
 
-    public void deleteRequest(){
+    public DeleteRequest() {
+        viewName = "DeleteRequest";
+        viewManager = ViewManager.getViewManager();
+    }
+
+    @Override
+    public void renderView() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("============ Delete Request ============");
@@ -17,5 +25,7 @@ public class DeleteRequest {
         requestService.delete(id);
 
         System.out.println("Request deleted.");
+
+        viewManager.navigate("MainMenu");
     }
 }

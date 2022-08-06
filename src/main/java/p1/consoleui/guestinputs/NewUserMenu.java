@@ -1,15 +1,23 @@
-package p1.Inputs.UserInput;
+package p1.consoleui.guestinputs;
 
-
-import p1.daos.UserDAO;
+import p1.consoleui.View;
+import p1.consoleui.ViewManager;
 import p1.pojos.User;
 import p1.services.UserService;
 
 import java.util.Scanner;
 
-public class NewUser {
-    public void newUser() {
+public class NewUserMenu extends View {
+
+    public NewUserMenu() {
+        viewName = "NewUser";
+        viewManager = ViewManager.getViewManager();
+    }
+
+    @Override
+    public void renderView() {
         Scanner sc = new Scanner(System.in);
+
         System.out.println("=========== New User ===========");
         System.out.print("Enter First Name: ");
         String firstName = sc.nextLine();
@@ -27,7 +35,8 @@ public class NewUser {
         userService.saveUser(newUser);
 
         System.out.println("User added");
+
+        viewManager.navigate("MainMenu");
+        //log in as user
     }
-
-
 }

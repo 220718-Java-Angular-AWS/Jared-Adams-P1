@@ -1,5 +1,6 @@
 package p1.pojos;
 
+import java.sql.ResultSet;
 import java.util.Objects;
 
 public class User {
@@ -36,6 +37,12 @@ public class User {
 
     public User(Integer userId) {
         this.userId = userId;
+    }
+
+    public User(String credentials, String password) {
+        this.email = credentials;
+        this.username = credentials;
+        this.password = password;
     }
 
     public Integer getUserId() {

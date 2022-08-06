@@ -1,13 +1,21 @@
-package p1.Inputs.RequestInput;
+package p1.consoleui.userinputs;
 
+import p1.consoleui.View;
+import p1.consoleui.ViewManager;
 import p1.pojos.Request;
 import p1.services.RequestService;
 
 import java.util.Scanner;
 
-public class UpdateRequest {
+public class UpdateRequest extends View {
 
-    public void updateRequest() {
+    public UpdateRequest() {
+        viewName = "UpdateRequest";
+        viewManager = ViewManager.getViewManager();
+    }
+
+    @Override
+    public void renderView() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("============ Update Your Request ============");
@@ -25,5 +33,7 @@ public class UpdateRequest {
         requestService.updateRequest(updateRequest);
 
         System.out.println("Update complete");
+
+        viewManager.navigate("MainMenu");
     }
 }

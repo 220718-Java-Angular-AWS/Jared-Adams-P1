@@ -34,4 +34,10 @@ public class UserService {
         dao.delete(id);
     }
 
+
+    public User logInUser(User user) {
+        return dao.logIn(user);
+    }
+
+
 }

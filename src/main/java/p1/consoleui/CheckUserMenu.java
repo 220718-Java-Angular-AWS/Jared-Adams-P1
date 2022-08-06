@@ -1,13 +1,18 @@
-package p1.Inputs.UserInput;
+package p1.consoleui;
 
 import p1.pojos.User;
 import p1.services.UserService;
 
 import java.util.Scanner;
 
-public class CheckUser {
+public class CheckUserMenu extends View {
 
-    public void checkUser() {
+    public CheckUserMenu() {
+        viewName = "CheckUser";
+        viewManager = ViewManager.getViewManager();
+    }
+    @Override
+    public void renderView() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("============= User Lookup =============");
@@ -18,6 +23,7 @@ public class CheckUser {
         UserService userService = new UserService();
         User user = userService.getUser(id);
         System.out.println(user);
-    }
 
+        viewManager.navigate("MainMenu");
+    }
 }
