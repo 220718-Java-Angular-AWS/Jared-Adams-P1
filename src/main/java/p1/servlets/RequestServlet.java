@@ -33,8 +33,7 @@ public class RequestServlet extends HttpServlet {
         String requestParam = req.getParameter("request-id");
 
         if(requestParam == null){
-            Integer userId = Integer.parseInt(req.getParameter("user-id"));
-            List<Request> requestList = service.getRequestForEmployee(userId);
+            List<Request> requestList = service.getListRequest();
             String json = mapper.writeValueAsString(requestList);
             resp.getWriter().println(json);
         }else{
@@ -92,7 +91,7 @@ public class RequestServlet extends HttpServlet {
         String param = req.getParameter("request-id");
         Integer requestId = Integer.parseInt(param);
         service.deleteRequest(requestId);
-
+        
         resp.setStatus(200);
         resp.setContentType("Application/Json, Charset=UTF-8");
     }

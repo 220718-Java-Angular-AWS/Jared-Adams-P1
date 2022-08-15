@@ -19,7 +19,7 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
     @Override
     public void create(Employee employee) {
         try {
-            String sql = "INSERT INTO users (first_name, last_name, email, username, password, admin)" +
+            String sql = "INSERT INTO employees (first_name, last_name, email, username, password, admin)" +
                     " VALUES (?, ?, ?, ?, ?, false)";
             PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, employee.getFirstName());
@@ -32,11 +32,11 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
             pstmt.executeUpdate();
             ResultSet keys = pstmt.getGeneratedKeys();
             if(keys.next()) {
-                Integer key = keys.getInt("user_id");
+                Integer key = keys.getInt("employee_id");
                 System.out.println("Key: " + key);
             }
 
-            String defaultAdmin = "UPDATE users SET admin = true WHERE user_id = 1";
+            String defaultAdmin = "UPDATE employees SET admin = true WHERE employee_id = 1";
             PreparedStatement pstmtDefaultAdmin = connection.prepareStatement(defaultAdmin);
 
             pstmtDefaultAdmin.executeUpdate();
@@ -52,13 +52,13 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
     public Employee read(int id) {
         Employee employee = new Employee();
         try {
-            String sql = "SELECT * FROM users WHERE user_id = ?";
+            String sql = "SELECT * FROM employees WHERE employee_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, id);
             ResultSet results = pstmt.executeQuery();
 
             if (results.next()) {
-                employee.setEmployeeId(results.getInt("user_id"));
+                employee.setEmployeeId(results.getInt("employee_id"));
                 employee.setFirstName(results.getString("first_name"));
                 employee.setLastName(results.getString("last_name"));
                 employee.setEmail(results.getString("email"));
@@ -76,13 +76,13 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
     public List<Employee> readALL() {
         List<Employee> employeeList = new LinkedList<>();
         try {
-            String sql = "SELECT * FROM users";
+            String sql = "SELECT * FROM employees";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             ResultSet results = pstmt.executeQuery();
 
             while (results.next()) {
                 Employee employee = new Employee();
-                employee.setEmployeeId(results.getInt("user_id"));
+                employee.setEmployeeId(results.getInt("employee_id"));
                 employee.setFirstName(results.getString("first_name"));
                 employee.setLastName(results.getString("last_name"));
                 employee.setEmail(results.getString("email"));
@@ -102,8 +102,8 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
     @Override
     public void update(Employee employee, Integer employeeId) {
         try {
-            String sql = "UPDATE users SET first_name = ?, last_name = ?, email = ?, " +
-                    "username = ?, password = ? WHERE user_id = ?";
+            String sql = "UPDATE employees SET first_name = ?, last_name = ?, email = ?, " +
+                    "username = ?, password = ? WHERE employee_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, employee.getFirstName());
             pstmt.setString(2, employee.getLastName());
@@ -123,7 +123,7 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
     @Override
     public void delete(int id) {
         try {
-            String sql = "DELETE FROM users WHERE user_id = ?";
+            String sql = "DELETE FROM employees WHERE employee_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, id);
             if(id == 1){
@@ -136,24 +136,23 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            throw new RuntimeException("Cannot delete Primary User");
+            throw new RuntimeException("Cannot Delete Primary User");
         }
     }
 
-    public Employee logInUsername(String credentials, String password) {
+    public Employee logInEmployee(String credentials, String password) {
         Employee employee = new Employee();
         try {
-            String sql = "SELECT * FROM users WHERE email = ? AND password = ? OR username = ? AND password = ?";
+            String sql = "SELECT * FROM employees WHERE email = ? AND password = ? OR username = ? AND password = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, credentials);
             pstmt.setString(2, password);
             pstmt.setString(3, credentials);
             pstmt.setString(4, password);
-            System.out.println("got here");
             ResultSet results = pstmt.executeQuery();
 
             if (results.next()) {
-                employee.setEmployeeId(results.getInt("user_id"));
+                employee.setEmployeeId(results.getInt("employee_id"));
                 employee.setFirstName(results.getString("first_name"));
                 employee.setLastName(results.getString("last_name"));
                 employee.setEmail(results.getString("email"));

@@ -20,13 +20,13 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     @Override
     public void create(Request request) {
         try{
-            String sql = "INSERT INTO requests (title, reimbursement_amount, message, user_id, status) " +
+            String sql = "INSERT INTO requests (title, reimbursement_amount, message, employee_id, status) " +
                     "VALUES (?, ?, ?, ?, false)";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, request.getTitle());
             pstmt.setFloat(2, request.getReimbursementAmount());
             pstmt.setString(3, request.getMessage());
-            pstmt.setInt(4, request.getUserId());
+            pstmt.setInt(4, request.getEmployeeId());
 
             pstmt.executeUpdate();
             ResultSet keys = pstmt.getGeneratedKeys();
@@ -54,7 +54,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
                 request.setTitle(results.getString("title"));
                 request.setReimbursementAmount(results.getFloat("reimbursement_amount"));
                 request.setMessage(results.getString("message"));
-                request.setUserId(results.getInt("user_id"));
+                request.setEmployeeId(results.getInt("employee_id"));
                 request.setStatus(results.getBoolean("status"));
 
             }
@@ -67,7 +67,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     public List<Request> readRequestByEmployee(Integer id){
         List<Request> requestList = new LinkedList<>();
         try{
-            String sql = "SELECT * FROM requests WHERE user_id = ?";
+            String sql = "SELECT * FROM requests WHERE employee_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, id);
             ResultSet results = pstmt.executeQuery();
@@ -78,7 +78,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
                 request.setTitle(results.getString("title"));
                 request.setReimbursementAmount(results.getFloat("reimbursement_amount"));
                 request.setMessage(results.getString("message"));
-                request.setUserId(results.getInt("user_id"));
+                request.setEmployeeId(results.getInt("employee_id"));
                 request.setStatus(results.getBoolean("status"));
                 requestList.add(request);
             }
@@ -118,7 +118,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
                 request.setTitle(results.getString("title"));
                 request.setReimbursementAmount(results.getFloat("reimbursement_amount"));
                 request.setMessage(results.getString("message"));
-                request.setUserId(results.getInt("user_id"));
+                request.setEmployeeId(results.getInt("employee_id"));
                 request.setStatus(results.getBoolean("status"));
                 requestList.add(request);
             }

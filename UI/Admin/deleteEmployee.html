@@ -10,9 +10,9 @@
     <form onsubmit="return false">
         <h1>Throw Employee to the Wolves</h1>
         <label>Enter Employee ID Number: </label>
-        <input type="number" id="employeeId" required;>
+        <input type="number" id="employeeId" required>
+        <button type="submit" onclick="deleteEmployee()">Submit</button>
     </form>
-    <button type="submit" onclick="deleteEmployee()">Submit</button>
 </body>
 <script>
     async function deleteEmployee() {
@@ -21,7 +21,7 @@
         let response = await fetch(url, {
             method: 'DELETE',
             headers:{
-                'Content-Type': 'application/jason; charset=utf-8'
+                'Content-Type': 'application/json; charset=utf-8'
             }
         });
 

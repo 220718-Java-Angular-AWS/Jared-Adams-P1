@@ -7,12 +7,21 @@
     <title>View Employees</title>
 </head>
 <body>
+    <form onsubmit="return false">
+        <h3>Find Employee by ID#</h3>
+        <label>Enter Employee ID#: </label>
+        <input type="number" placeholder="ID#" id="employeeId" required>
+        <button type="submit" id="myBtn" onclick="viewIndividualEmployee(); clrEmployee()">Find</button>
+        <button type="button" onclick="getEmployee(); clrList()">Find All</button>
+    </form>
+    <br>
+    <div id="individualEmployee"></div>
     <div id="employeeList"></div>
 </body>
 <script>
-    //Make an API call for Employees
-    (async function getEmployee() {
-        //url is a server location
+    
+    async function getEmployee() {
+       
         let url = 'http://localhost:8080/Jared-Adams-P1/employee';
         let response = await fetch(url, {
             method: 'GET',
@@ -20,27 +29,58 @@
                 'Content-Type': 'application/json; charset=utf-8'
             }
         });
-            //parse the JSON in that response
+            
             let array = await response.json();
-            
-            
-            //get the element where we will place our content
             let htmlElement = document.getElementById('employeeList');
 
             for(let i = 0; i < array.length; i++){
                 let employee = array[i];
-                //insert into the web page the data
-                htmlElement.innerHTML += "<h4>First Name: " + employee.firstName + "</h4>";
+                htmlElement.innerHTML += "<p>Employee ID#: " + employee.employeeId + "</p>";
+                htmlElement.innerHTML += "<p>First Name: " + employee.firstName + "</p>";
                 htmlElement.innerHTML += "<p>Last Name: " + employee.lastName + "</p>";
                 htmlElement.innerHTML += "<p>Email: " + employee.email + "</p>";
                 htmlElement.innerHTML += "<p>Username: " + employee.username + "</p>";
                 htmlElement.innerHTML += "<p>Password: " + employee.password + "</p><br>";
             }
-    })();
+    };
+    
+    async function viewIndividualEmployee() {
+        
+        let employeeId = document.getElementById("employeeId").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/employee?employee-id=' + employeeId;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        
+        let employee = await response.json()
+        let htmlElement = document.getElementById("individualEmployee");
+        
+        if(employee.firstName != null){
+            htmlElement.innerHTML += "<p>Employee ID#: " + employee.employeeId + "</p>";
+            htmlElement.innerHTML += "<p>First Name: " + employee.firstName + "</p>";
+            htmlElement.innerHTML += "<p>Last Name: " + employee.lastName + "</p>";
+            htmlElement.innerHTML += "<p>Email: " + employee.email + "</p>";
+            htmlElement.innerHTML += "<p>Username: " + employee.username + "</p>";
+            htmlElement.innerHTML += "<p>Password: " + employee.password + "</p>";
+        }else{
+            alert("Employee does not exist!")
+        }
+        
+        
+    }
 
+    async function clrList() {
+        let list = document.getElementById("employeeList");
+        list.innerHTML = "";
+    }
+    
+    async function clrEmployee(){
+        let employee = document.getElementById("individualEmployee");
+        employee.innerHTML = "";
 
-
-
-
+    }
 </script>
 </html>

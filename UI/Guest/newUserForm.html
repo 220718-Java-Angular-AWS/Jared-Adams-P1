@@ -26,7 +26,7 @@
             <br>
             
     </form> 
-    <button type="submit" onclick="postEmployee()">Register</button>
+    <button type="submit" id="btn" onclick="postEmployee()">Register</button>
     <button type="submit" onclick="returnLogIn()">Existing User</button>
 </body>
 <script>
@@ -69,20 +69,27 @@
             },
             body: JSON.stringify(employee)
         });
+
+        //GET BACK THE OBJECT WE JUST CREATED.
+
         if(response.status == 200){
             alert("Success!")
+            if(localStorage.getItem == null){
+                document.getElementById("login").addEventListener("click", function() {
+                window.localStorage.setItem('userId', employee.employeeId);
+            });
+            }else{
+                localStorage.getItem('userId');
+                localStorage.setItem('userId', employee.employeeId);
+            }
             location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html";
         }
-
     };
 
     async function returnLogIn() {
         location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Guest/LogIn.html"
     }
 
-
-
-
-
+    
 </script>
 </html>
