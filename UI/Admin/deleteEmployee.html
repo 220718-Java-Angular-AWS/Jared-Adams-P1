@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="return false">
+        <h1>Throw Employee to the Wolves</h1>
+        <label>Enter Employee ID Number: </label>
+        <input type="number" id="employeeId" required;>
+    </form>
+    <button type="submit" onclick="deleteEmployee()">Submit</button>
+</body>
+<script>
+    async function deleteEmployee() {
+        let employeeId = document.getElementById("employeeId").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/employee?employee-id=' + employeeId;
+        let response = await fetch(url, {
+            method: 'DELETE',
+            headers:{
+                'Content-Type': 'application/jason; charset=utf-8'
+            }
+        });
+
+        if (response.status == 200) {
+            alert("Critical Hit!")
+        }
+    };
+</script>
+</html>

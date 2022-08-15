@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Employees</title>
+</head>
+<body>
+    <div id="employeeList"></div>
+</body>
+<script>
+    //Make an API call for Employees
+    (async function getEmployee() {
+        //url is a server location
+        let url = 'http://localhost:8080/Jared-Adams-P1/employee';
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+            //parse the JSON in that response
+            let array = await response.json();
+            
+            
+            //get the element where we will place our content
+            let htmlElement = document.getElementById('employeeList');
+
+            for(let i = 0; i < array.length; i++){
+                let employee = array[i];
+                //insert into the web page the data
+                htmlElement.innerHTML += "<h4>First Name: " + employee.firstName + "</h4>";
+                htmlElement.innerHTML += "<p>Last Name: " + employee.lastName + "</p>";
+                htmlElement.innerHTML += "<p>Email: " + employee.email + "</p>";
+                htmlElement.innerHTML += "<p>Username: " + employee.username + "</p>";
+                htmlElement.innerHTML += "<p>Password: " + employee.password + "</p><br>";
+            }
+    })();
+
+
+
+
+
+</script>
+</html>

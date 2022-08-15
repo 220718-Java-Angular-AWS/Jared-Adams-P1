@@ -13,23 +13,30 @@ public class RequestService {
         this.dao = new RequestDAO();
     }
 
-    public void saveDAO(Request request) {
+    public void saveRequest(Request request) {
         dao.create(request);
     }
 
     public Request getRequest(int id) {
         return dao.read(id);
     }
+    public List<Request> getRequestForEmployee(int id){
+        return dao.readRequestByEmployee(id);
+    }
+
+    public List<Request> getListStatus(Boolean status){
+        return dao.readStatus(status);
+    }
 
     public List<Request> getListRequest() {
         return dao.readALL();
     }
 
-    public void updateRequest(Request request) {
-        dao.update(request);
+    public void updateRequest(Request request, Integer requestId) {
+        dao.update(request, requestId);
     }
 
-    public void delete(int id) {
+    public void deleteRequest(int id) {
         dao.delete(id);
     }
 }

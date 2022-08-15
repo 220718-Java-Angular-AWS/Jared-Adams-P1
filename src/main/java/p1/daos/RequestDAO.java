@@ -20,7 +20,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     @Override
     public void create(Request request) {
         try{
-            String sql = "INSERT INTO requests (title, reimbursement_amount, message, user_id, completed) " +
+            String sql = "INSERT INTO requests (title, reimbursement_amount, message, user_id, status) " +
                     "VALUES (?, ?, ?, ?, false)";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, request.getTitle());
@@ -28,8 +28,12 @@ public class RequestDAO implements DataSourceCRUD<Request> {
             pstmt.setString(3, request.getMessage());
             pstmt.setInt(4, request.getUserId());
 
-
             pstmt.executeUpdate();
+            ResultSet keys = pstmt.getGeneratedKeys();
+            if(keys.next()) {
+                keys.getInt("request_id");
+            }
+
         } catch(SQLException e) {
             e.printStackTrace();
         }
@@ -51,7 +55,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
                 request.setReimbursementAmount(results.getFloat("reimbursement_amount"));
                 request.setMessage(results.getString("message"));
                 request.setUserId(results.getInt("user_id"));
-                request.setCompleted(results.getBoolean("completed"));
+                request.setStatus(results.getBoolean("status"));
 
             }
         } catch (SQLException e) {
@@ -60,7 +64,47 @@ public class RequestDAO implements DataSourceCRUD<Request> {
         return request;
     }
 
-    @Override
+    public List<Request> readRequestByEmployee(Integer id){
+        List<Request> requestList = new LinkedList<>();
+        try{
+            String sql = "SELECT * FROM requests WHERE user_id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            ResultSet results = pstmt.executeQuery();
+
+            while(results.next()){
+                Request request = new Request();
+                request.setRequestId(results.getInt("request_id"));
+                request.setTitle(results.getString("title"));
+                request.setReimbursementAmount(results.getFloat("reimbursement_amount"));
+                request.setMessage(results.getString("message"));
+                request.setUserId(results.getInt("user_id"));
+                request.setStatus(results.getBoolean("status"));
+                requestList.add(request);
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return requestList;
+    }
+
+    public List<Request> readStatus(Boolean status){
+        List<Request> statusList = new LinkedList<>();
+        try {
+            String sql = "SELECT * FROM requests WHERE status = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setBoolean(1, status);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return statusList;
+    }
+
     public List<Request> readALL() {
         List<Request> requestList = new LinkedList<>();
         try{
@@ -75,7 +119,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
                 request.setReimbursementAmount(results.getFloat("reimbursement_amount"));
                 request.setMessage(results.getString("message"));
                 request.setUserId(results.getInt("user_id"));
-                request.setCompleted(results.getBoolean("completed"));
+                request.setStatus(results.getBoolean("status"));
                 requestList.add(request);
             }
         } catch (SQLException e) {
@@ -85,15 +129,15 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     }
 
     @Override
-    public void update(Request request) {
+    public void update(Request request, Integer requestId) {
         try{
             String sql = "UPDATE requests SET title = ?, reimbursement_amount = ?, message = ?, " +
-                    "completed = false WHERE request_id = ?";
+                    "status = false WHERE request_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, request.getTitle());
             pstmt.setFloat(2, request.getReimbursementAmount());
             pstmt.setString(3, request.getMessage());
-            pstmt.setInt(4, request.getRequestId());
+            pstmt.setInt(4, requestId);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {

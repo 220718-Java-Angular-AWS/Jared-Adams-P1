@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+</head>
+<body>
+    <form onsubmit = "return false">
+        <h1>Log In</h1>
+            <label>Enter Email or Username: </label>
+            <input type="text" placeholder="Enter Email or Username" id="credentials" required>
+            <br>
+            <label>Enter Password: </label>
+            <input type="password" placeholder="Enter Password" id="password" required>
+            <br>
+            <button type="submit" onclick="logInEmployee()">Log In</button>
+            <button type="submit" onclick="registerEmployee()">Register New Employee</button>
+    </form>    
+</body>
+<script>
+    async function logInEmployee(credentials, password) {
+        
+        creds = document.getElementById("credentials").value;
+        password = document.getElementById("password").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/login?credentials=' + creds + '&password=' + password;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/jason; charset=utf-8'
+            }
+        });
+        
+        if(response.status == 200){
+            let employee = await response.json();
+            alert("Welcome " + employee.firstName + " " + employee.lastName);
+            location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html";
+        }
+        
+        
+    }
+    
+    async function registerEmployee() {
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Guest/newUserForm.html"
+    }
+</script>
+</html>

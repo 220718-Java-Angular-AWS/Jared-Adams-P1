@@ -1,59 +1,65 @@
 package p1.pojos;
 
-import java.sql.ResultSet;
 import java.util.Objects;
 
-public class User {
-    private Integer userId;
+public class Employee {
+
+    private Integer employeeId;
     private String firstName;
     private String lastName;
     private String username;
     private String email;
     private String password;
+    private boolean admin;
 
-    public User() {
+
+    public Employee() {
     }
 
-    public User(Integer userId, String firstName, String lastName, String username, String email, String password) {
-        this.userId = userId;
+    public Employee(Integer employeeId, String firstName, String lastName, String username, String email, String password, boolean admin) {
+        this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.admin = admin;
     }
 
-    public User(String firstName, String lastName, String email, String username, String password) {
+    public Employee(String firstName, String lastName, String email, String username, String password, boolean admin) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.admin = admin;
     }
 
-    public User(String username) {
+    public Employee(Integer employeeId, String firstName, String lastName, String username, String email, String password) {
+        this.employeeId = employeeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
+        this.email = email;
+        this.password = password;
+
     }
 
-    public User(Integer userId) {
-        this.userId = userId;
-    }
-
-    public User(String credentials, String password) {
+    public Employee(String credentials, String password) {
         this.email = credentials;
         this.username = credentials;
         this.password = password;
     }
 
-    public Integer getUserId() {
+    public Integer getEmployeeId() {
 
-        return userId;
+        return employeeId;
     }
 
 
-    public void setUserId(Integer userId) {
+    public void setEmployeeId(Integer employeeId) {
 
-        this.userId = userId;
+        this.employeeId = employeeId;
     }
 
     public String getUsername() {
@@ -105,25 +111,33 @@ public class User {
         this.password = password;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(userId, user.userId) && Objects.equals(username, user.username) &&
-                Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) &&
-                Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        Employee employee = (Employee) o;
+        return Objects.equals(employeeId, employee.employeeId) && Objects.equals(username, employee.username) &&
+                Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName) &&
+                Objects.equals(email, employee.email) && Objects.equals(password, employee.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, username, firstName, lastName, email, password);
+        return Objects.hash(employeeId, username, firstName, lastName, email, password);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userId=" + employeeId +
                 ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

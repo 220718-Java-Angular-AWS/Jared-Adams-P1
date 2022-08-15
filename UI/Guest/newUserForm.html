@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New User Form</title>
+</head>
+<body>
+    <form onsubmit = "return false">
+        <h1>New User</h1>
+            <label>First Name: </label>
+            <input type="text" placeholder="Enter First Name" id="firstName" required>
+            <br>
+            <label>Last Name: </label>
+            <input type="text" placeholder="Enter Last Name" id="lastName" required>
+            <br>
+            <label>Email: </label>
+            <input type="text" placeholder="Enter Email" id="email" required>
+            <br>
+            <label>Username: </label>
+            <input type="text" placeholder="Enter Username" id="username" required>
+            <br>
+            <label>Password: </label>
+            <input type="password" placeholder="Enter Password" id="password" required>
+            <br>
+            
+    </form> 
+    <button type="submit" onclick="postEmployee()">Register</button>
+    <button type="submit" onclick="returnLogIn()">Existing User</button>
+</body>
+<script>
+    //Make an API call for Employees
+    async function postEmployee() {
+        let employee = {
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            email: document.getElementById("email").value,
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+
+        }
+        if(employee.firstName.length == 0) {
+            alert("Field \"First Name\" cannot be empty");
+            throw "Field cannot be empty!"
+        }
+        if(employee.lastName.length == 0) {
+            alert("Field \"Last Name\" cannot be empty");
+            throw "Field cannot be empty!"
+        }
+        if(employee.email.length == 0) {
+            alert("Field \"Email\" cannot be empty");
+            throw "Field cannot be empty!"
+        }
+        if(employee.username.length == 0) {
+            alert("Field \"Username\" cannot be empty");
+            throw "Field cannot be empty!"
+        }
+        if(employee.password.length == 0) {
+            alert("Field \"Password\" cannot be empty");
+            throw "Field cannot be empty!"
+        }
+        //url is a server location
+        let url = 'http://localhost:8080/Jared-Adams-P1/employee';
+        let response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify(employee)
+        });
+        if(response.status == 200){
+            alert("Success!")
+            location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html";
+        }
+
+    };
+
+    async function returnLogIn() {
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Guest/LogIn.html"
+    }
+
+
+
+
+
+</script>
+</html>

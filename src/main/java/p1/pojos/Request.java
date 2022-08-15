@@ -8,26 +8,26 @@ public class Request {
     private Float reimbursementAmount;
     private String message;
     private Integer userId;
-    private Boolean completed;
+    private Boolean status;
 
     public Request() {
     }
 
-    public Request(Integer requestId, String title, Float reimbursementAmount, String message, Integer userId, Boolean completed) {
+    public Request(Integer requestId, String title, Float reimbursementAmount, String message, Integer userId, Boolean status) {
         this.requestId = requestId;
         this.title = title;
         this.reimbursementAmount = reimbursementAmount;
         this.message = message;
         this.userId = userId;
-        this.completed = completed;
+        this.status = status;
     }
 
-    public Request(String title, Float reimbursementAmount, String message, Integer userId, Boolean completed) {
+    public Request(String title, Float reimbursementAmount, String message, Integer userId, Boolean status) {
         this.title = title;
         this.reimbursementAmount = reimbursementAmount;
         this.message = message;
         this.userId = userId;
-        this.completed = completed;
+        this.status = status;
     }
 
     public Request(String title, Float reimbursementAmount, String message, Integer userId) {
@@ -84,12 +84,12 @@ public class Request {
         this.userId = userId;
     }
 
-    public Boolean getCompleted() {
-        return completed;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override
@@ -97,12 +97,12 @@ public class Request {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        return Objects.equals(requestId, request.requestId) && Objects.equals(title, request.title) && Objects.equals(reimbursementAmount, request.reimbursementAmount) && Objects.equals(message, request.message) && Objects.equals(userId, request.userId) && Objects.equals(completed, request.completed);
+        return Objects.equals(requestId, request.requestId) && Objects.equals(title, request.title) && Objects.equals(reimbursementAmount, request.reimbursementAmount) && Objects.equals(message, request.message) && Objects.equals(userId, request.userId) && Objects.equals(status, request.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestId, title, reimbursementAmount, message, userId, completed);
+        return Objects.hash(requestId, title, reimbursementAmount, message, userId, status);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class Request {
                 ", reimbursementAmount='" + reimbursementAmount + '\'' +
                 ", message='" + message + '\'' +
                 ", userId=" + userId +
-                ", completed=" + completed +
+                ", completed=" + status +
                 '}';
     }
 }
