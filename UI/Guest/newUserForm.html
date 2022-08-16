@@ -30,7 +30,7 @@
     <button type="submit" onclick="returnLogIn()">Existing User</button>
 </body>
 <script>
-    //Make an API call for Employees
+    
     async function postEmployee() {
         let employee = {
             firstName: document.getElementById("firstName").value,
@@ -60,7 +60,7 @@
             alert("Field \"Password\" cannot be empty");
             throw "Field cannot be empty!"
         }
-        //url is a server location
+       
         let url = 'http://localhost:8080/Jared-Adams-P1/employee';
         let response = await fetch(url, {
             method: 'POST',
@@ -70,19 +70,35 @@
             body: JSON.stringify(employee)
         });
 
-        //GET BACK THE OBJECT WE JUST CREATED.
-
-        if(response.status == 200){
+        if(response.status == 200) {
             alert("Success!")
-            if(localStorage.getItem == null){
-                document.getElementById("login").addEventListener("click", function() {
-                window.localStorage.setItem('userId', employee.employeeId);
+            usernameConfirmed = document.getElementById("username").value;
+            passwordConfirmed = document.getElementById("password").value;
+            
+            let getUrl = 'http://localhost:8080/Jared-Adams-P1/login?credentials=' + usernameConfirmed + '&password=' + passwordConfirmed;
+            let getResponse = await fetch(getUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            });
+            let newEmployee = await getResponse.json();            
+            if(localStorage.getItem == null){                
+                document.getElementById("btn").addEventListener("click", function() {
+                window.localStorage.setItem('userId', newEmployee.employeeId);
+                localStorage.setItem('admin', newEmployee.admin)
             });
             }else{
                 localStorage.getItem('userId');
-                localStorage.setItem('userId', employee.employeeId);
+                localStorage.getItem('admin');
+                localStorage.setItem('userId', newEmployee.employeeId);
+                localStorage.setItem('admin', newEmployee.admin);
             }
-            location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html";
+            if(newEmployee.admin == true){
+                location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Admin/adminMenu.html";
+            }else{
+                location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html";
+            }                
         }
     };
 
