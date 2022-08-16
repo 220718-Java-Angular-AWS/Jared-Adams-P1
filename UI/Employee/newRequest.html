@@ -33,14 +33,22 @@
             title: document.getElementById("title").value,
             reimbursementAmount: document.getElementById("amount").value,
             message: document.getElementById("message").value,
+<<<<<<< HEAD
             employeeId: document.getElementById("employeeId").value
+=======
+            userId: document.getElementById("employeeId").value
+>>>>>>> 4fc6668e378eb7baca6df45ab23cb3cc8ffde37f
         }
 
         if(request.title.length == 0) {
             alert("Field \"Title\" cannot be empty");
             throw "Field cannot be empty!"
         }
+<<<<<<< HEAD
         if(request.employeeId.length == 0) {
+=======
+        if(request.userId.length == 0) {
+>>>>>>> 4fc6668e378eb7baca6df45ab23cb3cc8ffde37f
             alert("Field \"Employee ID#\" cannot be empty");
             throw "Field cannot be empty!"
         }
@@ -64,7 +72,13 @@
             alert("Request Added");
             location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html';
         }
+<<<<<<< HEAD
     }
+=======
+        console.log("made it to here")
+    }
+
+>>>>>>> 4fc6668e378eb7baca6df45ab23cb3cc8ffde37f
     async function returnMainMenu() {
         location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html'
     }

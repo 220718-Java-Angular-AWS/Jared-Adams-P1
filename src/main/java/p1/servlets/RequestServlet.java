@@ -31,6 +31,7 @@ public class RequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String requestParam = req.getParameter("request-id");
+<<<<<<< HEAD
         String employeeParam = req.getParameter("employee-id");
         if(employeeParam == null) {
             if(requestParam == null){
@@ -43,6 +44,13 @@ public class RequestServlet extends HttpServlet {
                 String json = mapper.writeValueAsString(request);
                 resp.getWriter().println(json);
             }
+=======
+
+        if(requestParam == null){
+            List<Request> requestList = service.getListRequest();
+            String json = mapper.writeValueAsString(requestList);
+            resp.getWriter().println(json);
+>>>>>>> 4fc6668e378eb7baca6df45ab23cb3cc8ffde37f
         }else{
             if(requestParam == null){
 
@@ -124,7 +132,7 @@ public class RequestServlet extends HttpServlet {
         String param = req.getParameter("request-id");
         Integer requestId = Integer.parseInt(param);
         service.deleteRequest(requestId);
-
+        
         resp.setStatus(200);
         resp.setContentType("Application/Json, Charset=UTF-8");
     }

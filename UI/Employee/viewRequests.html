@@ -17,6 +17,14 @@
     <br>
     <div id="individualRequest"></div>
     <div id="requestList"></div>
+<<<<<<< HEAD
+=======
+    <form onsubmit="return confirm('Are you sure you want to delete this request?')">
+        <label>Delete Request</label>
+        <input type="number" placeholder="Enter Request ID#" id="deletionId" required>
+        <button type="submit" id="dltBtn" onclick="deleteRequest()">Delete</button>
+    </form>
+>>>>>>> 4fc6668e378eb7baca6df45ab23cb3cc8ffde37f
     <button type="button" onclick="mainMenu()">Back</button>
 </body>
 <script>
@@ -83,10 +91,33 @@
         request.innerHTML = "";
     }
 
+<<<<<<< HEAD
     async function mainMenu(){
         location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html";
     }
 
     async
+=======
+    async function deleteRequest() {
+        let requestId = document.getElementById("deletionId").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId;
+        let response = await fetch(url, {
+            method: 'DELETE',
+            headers:{
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+
+        if (response.status == 200) {
+            alert("Request shredded!")
+        }else{
+            alert("This request does not exist!")
+        }
+    };
+
+    async function mainMenu(){
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html";
+    }
+>>>>>>> 4fc6668e378eb7baca6df45ab23cb3cc8ffde37f
 </script>
 </html>
