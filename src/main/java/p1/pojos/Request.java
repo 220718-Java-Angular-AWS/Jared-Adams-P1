@@ -8,12 +8,12 @@ public class Request {
     private Float reimbursementAmount;
     private String message;
     private Integer employeeId;
-    private Boolean status;
+    private String status;
 
     public Request() {
     }
 
-    public Request(Integer requestId, String title, Float reimbursementAmount, String message, Integer employeeId, Boolean status) {
+    public Request(Integer requestId, String title, Float reimbursementAmount, String message, Integer employeeId, String status) {
         this.requestId = requestId;
         this.title = title;
         this.reimbursementAmount = reimbursementAmount;
@@ -22,7 +22,7 @@ public class Request {
         this.status = status;
     }
 
-    public Request(String title, Float reimbursementAmount, String message, Integer employeeId, Boolean status) {
+    public Request(String title, Float reimbursementAmount, String message, Integer employeeId, String status) {
         this.title = title;
         this.reimbursementAmount = reimbursementAmount;
         this.message = message;
@@ -84,11 +84,11 @@ public class Request {
         this.employeeId = employeeId;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

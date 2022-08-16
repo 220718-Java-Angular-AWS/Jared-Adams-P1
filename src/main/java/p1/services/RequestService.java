@@ -3,6 +3,7 @@ package p1.services;
 import p1.daos.RequestDAO;
 import p1.pojos.Request;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 public class RequestService {
@@ -24,7 +25,7 @@ public class RequestService {
         return dao.getSingleRequestForEmployee(requestId, employeeId);
     }
     public List<Request> getRequestForEmployee(int id){
-        return dao.readRequestByEmployee(id);
+        return dao.readRequestsByEmployee(id);
     }
 
     public List<Request> getListStatus(Boolean status){

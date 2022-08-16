@@ -31,44 +31,32 @@ public class RequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String requestParam = req.getParameter("request-id");
-<<<<<<< HEAD
+
         String employeeParam = req.getParameter("employee-id");
-        if(employeeParam == null) {
-            if(requestParam == null){
+        if(requestParam == null) {
+            if (employeeParam == null) {
                 List<Request> requestList = service.getListRequest();
                 String json = mapper.writeValueAsString(requestList);
                 resp.getWriter().println(json);
-            }else{
-                Integer requestId = Integer.parseInt(requestParam);
-                Request request = service.getRequest(requestId);
+            } else {
+                Integer employeeId = Integer.parseInt(employeeParam);
+                List<Request> request = service.getRequestForEmployee(employeeId);
                 String json = mapper.writeValueAsString(request);
                 resp.getWriter().println(json);
             }
-=======
-
-        if(requestParam == null){
-            List<Request> requestList = service.getListRequest();
-            String json = mapper.writeValueAsString(requestList);
-            resp.getWriter().println(json);
->>>>>>> 4fc6668e378eb7baca6df45ab23cb3cc8ffde37f
         }else{
-            if(requestParam == null){
-
-                Integer employeeId = Integer.parseInt(employeeParam);
-                List<Request> requestList = service.getRequestForEmployee(employeeId);
-                String json = mapper.writeValueAsString(requestList);
+            Integer requestId = Integer.parseInt(requestParam);
+            if(employeeParam == null){
+                Request request = service.getRequest(requestId);
+                String json = mapper.writeValueAsString(request);
                 resp.getWriter().println(json);
             }else{
-                Integer requestId = Integer.parseInt(requestParam);
                 Integer employeeId = Integer.parseInt(employeeParam);
                 Request request = service.getSingleRequestForEmployee(requestId, employeeId);
                 String json = mapper.writeValueAsString(request);
                 resp.getWriter().println(json);
             }
         }
-
-
-
 
         resp.setStatus(200);
         resp.setContentType("Application/Json, Charset=UTF-8");
@@ -86,6 +74,7 @@ public class RequestServlet extends HttpServlet {
 
         Request newRequest = mapper.readValue(json, Request.class);
         service.saveRequest(newRequest);
+
 
         resp.setStatus(200);
         resp.setContentType("Application/Json, Charset=UTF-8");

@@ -4,6 +4,7 @@ package p1.services;
 import p1.daos.EmployeeDAO;
 import p1.pojos.Employee;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 public class EmployeeService {
@@ -16,6 +17,7 @@ public class EmployeeService {
 
     public void saveEmployee(Employee employee) {
         dao.create(employee);
+
     }
 
     public Employee getEmployee(int id) {

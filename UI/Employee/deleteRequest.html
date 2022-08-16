@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    table, th, td {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+</style>
 <body>
     <form onsubmit="return confirm('Are you sure you want to delete this request?')">
         <h1>Delete Request</h1>
@@ -13,13 +20,17 @@
         <input type="number" id="requestId" required>
         <button type="submit" onclick="deleteRequest()">Submit</button>
     </form>
-    <h1>Current Requests</h1>
-    <div id="requestList"></div>
+    
+    <h1 style="text-align: center">Current Requests</h1>
+    <table style="width: 75%;" id="requestTable"></table>
+    <button type="button" onclick="returnMainMenu()">Back</button>
 </body>
 <script>
+    let currentEmployeeId = window.localStorage.getItem('userId');
+    let currentEmployeeStatus = localStorage.getItem('admin');
     (async function getRequest() {
         
-        let url = 'http://localhost:8080/Jared-Adams-P1/request';
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?employee-id=' + currentEmployeeId;
         let response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -28,16 +39,27 @@
         });
  
             let array = await response.json();
-            let htmlElement = document.getElementById('requestList');
-
+            let htmlElement = document.getElementById('requestTable');
+            htmlElement.style.border = "1px solid black" ;
+            htmlElement.style.background = "#8fccf2";
+            
+            htmlElement.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+                "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
+                "<th style='width: 20%; border: 1px solid black'>Title</th>" +
+                "<th style='width: 10%; border: 1px solid black'>Reimburesement Amount</th>" +
+                "<th style='border: 1px solid black'>Message</th>" +
+                "<th style='width: 10%; border: 1px solid black'>Status</th></tr>"
+            
+            
             for(let i = 0; i < array.length; i++){
                 let request = array[i];
-                htmlElement.innerHTML += "<p>Request ID#: " + request.requestId + "</p>";
-                htmlElement.innerHTML += "<p>Title: " + request.title + "</p>";
-                htmlElement.innerHTML += "<p>Employee ID#: " + request.employeeId + "</p>";
-                htmlElement.innerHTML += "<p>Reimburesement Amount: " + request.reimbursementAmount + "</p>";
-                htmlElement.innerHTML += "<p>Message: " + request.message + "</p>";
-                htmlElement.innerHTML += "<p>Status: " + request.status + "</p><br>";
+                htmlElement.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
+                "</td><td style='width: 5%; border: 1px solid black'>" + request.requestId + 
+                "</td><td style='border: 1px solid black'>" + request.title + 
+                "</td><td style='width: 10%; border: 1px solid black'>" + request.reimbursementAmount + 
+                "</td><td style='border: 1px solid black'>" + request.message + 
+                "</td><td style='width: 10%; border: 1px solid black'>" + request.status + 
+                "</td></tr>"
             }
     })(requestId);
     async function deleteRequest() {
@@ -54,5 +76,8 @@
             alert("Request shredded!")
         }
     };
+    async function returnMainMenu() {
+        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html';
+    }
 </script>
 </html>

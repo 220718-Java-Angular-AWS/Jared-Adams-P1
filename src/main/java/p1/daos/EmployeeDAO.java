@@ -18,6 +18,7 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
 
     @Override
     public void create(Employee employee) {
+
         try {
             String sql = "INSERT INTO employees (first_name, last_name, email, username, password, admin)" +
                     " VALUES (?, ?, ?, ?, ?, false)";
@@ -31,9 +32,8 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
 
             pstmt.executeUpdate();
             ResultSet keys = pstmt.getGeneratedKeys();
-            if(keys.next()) {
-                Integer key = keys.getInt("employee_id");
-                System.out.println("Key: " + key);
+            if (keys.next()) {
+                keys.getInt("employee_id");
             }
 
             String defaultAdmin = "UPDATE employees SET admin = true WHERE employee_id = 1";

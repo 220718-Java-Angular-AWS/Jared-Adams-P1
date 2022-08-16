@@ -6,12 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    table, th, td {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+</style>
 <body>
     <form onsubmit="return false">
         <h1>Edit Request</h1>
         <label>Title</label>
         <br>
-        <input type="text" id="title" style="width: 500px;" required>
+        <input type="text" id="title" style="width: 500px;">
         <br><br><br>
         <label>Request ID#: </label>
         <input type="number" id="requestId" required>
@@ -21,14 +28,13 @@
         <br><br>
         <label>Message</label>
         <br>
-        <textarea type="text" rows="6" cols="100" id="message" required></textarea>
+        <textarea type="text" rows="6" cols="100" id="message"></textarea>
         <br>
         <button type="submit" id="btn" onclick="editRequest()">Submit</button>
         <button type="button" onclick="returnMainMenu()">Back</button>
     </form>
-    
-    <h1>Current Requests</h1>
-    <div id="requestList"></div>
+    <h2 style="text-align: center">Current Requests</h2>
+    <table style="width: 75%" id="requestTable"></table>
 </body>
 <script>
     let currentEmployeeId = window.localStorage.getItem('userId');
@@ -44,38 +50,54 @@
         });
  
             let array = await response.json();
-            let htmlElement = document.getElementById('requestList');
+            let htmlElement = document.getElementById('requestTable');
+            htmlElement.style.border = "1px solid black" ;
+            htmlElement.style.background = "#8fccf2";
+            
+            htmlElement.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+                "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
+                "<th style='width: 20%; border: 1px solid black'>Title</th>" +
+                "<th style='width: 10%; border: 1px solid black'>Reimburesement Amount</th>" +
+                "<th style='border: 1px solid black'>Message</th>" +
+                "<th style='width: 10%; border: 1px solid black'>Status</th></tr>"
 
             for(let i = 0; i < array.length; i++){
                 let request = array[i];
-                htmlElement.innerHTML += "<p>Request ID#: " + request.requestId + "</p>";
-                htmlElement.innerHTML += "<p>Title: " + request.title + "</p>";
-                htmlElement.innerHTML += "<p>Employee ID#: " + request.employeeId + "</p>";
-                htmlElement.innerHTML += "<p>Reimburesement Amount: " + request.reimbursementAmount + "</p>";
-                htmlElement.innerHTML += "<p>Message: " + request.message + "</p>";
-                htmlElement.innerHTML += "<p>Status: " + request.status + "</p><br>";
+                htmlElement.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
+                "</td><td style='width: 5%; border: 1px solid black'>" + request.requestId + 
+                "</td><td style='border: 1px solid black'>" + request.title + 
+                "</td><td style='width: 10%; border: 1px solid black'>" + request.reimbursementAmount + 
+                "</td><td style='border: 1px solid black'>" + request.message + 
+                "</td><td style='width: 10%; border: 1px solid black'>" + request.status + 
+                "</td></tr>"
             }
     })(requestId);
 
+    // async function showRequest() {
+    //     let requestId = 
+    // }
+
     async function editRequest() {
+        
         let requestId = document.getElementById("requestId").value;
         let request = {
             title: document.getElementById("title").value,
             reimbursementAmount: document.getElementById("amount").value,
             message: document.getElementById("message").value
         }
-        if(request.title.length == 0) {
-            alert("Field \"Title\" cannot be empty");
-            throw "Field cannot be empty!"
-        }
-        if(request.reimbursementAmount.length == 0) {
-            alert("Field \"Amount\" cannot be empty");
-            throw "Field cannot be empty!"
-        }
-        if(request.message.length == 0) {
-            alert("Field \"Message\" cannot be empty");
-            throw "Field cannot be empty!"
-        }
+        // if(request.title.length == 0) {
+        //     alert("Field \"Title\" cannot be empty");
+        //     throw "Field cannot be empty!"
+        // }
+        // if(request.reimbursementAmount.length == 0) {
+        //     alert("Field \"Amount\" cannot be empty");
+        //     throw "Field cannot be empty!"
+        // }
+        // if(request.message.length == 0) {
+        //     alert("Field \"Message\" cannot be empty");
+        //     throw "Field cannot be empty!"
+        //}
+        
         let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId+ '&employee-id=' + currentEmployeeId;
         let response = await fetch(url, {
             method: 'PUT',
@@ -89,12 +111,13 @@
         if(response.status == 200) {
             alert("Request Updated");
         }else{
-            alert("Failed to update")
+            alert("Failed to update");
         }
+        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/editRequest.html';
         
     }
     async function returnMainMenu() {
-        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html'
+        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html';
     }
 </script>
 </html>
