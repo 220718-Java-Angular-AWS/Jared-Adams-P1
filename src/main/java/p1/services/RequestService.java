@@ -20,6 +20,9 @@ public class RequestService {
     public Request getRequest(int id) {
         return dao.read(id);
     }
+    public Request getSingleRequestForEmployee(int requestId, int employeeId){
+        return dao.getSingleRequestForEmployee(requestId, employeeId);
+    }
     public List<Request> getRequestForEmployee(int id){
         return dao.readRequestByEmployee(id);
     }
@@ -34,6 +37,9 @@ public class RequestService {
 
     public void updateRequest(Request request, Integer requestId) {
         dao.update(request, requestId);
+    }
+    public void updateRequestById(Request request, Integer requestId, Integer employeeId) {
+        dao.update(request, requestId, employeeId);
     }
 
     public void deleteRequest(int id) {

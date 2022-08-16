@@ -7,34 +7,34 @@ public class Request {
     private String title;
     private Float reimbursementAmount;
     private String message;
-    private Integer userId;
+    private Integer employeeId;
     private Boolean status;
 
     public Request() {
     }
 
-    public Request(Integer requestId, String title, Float reimbursementAmount, String message, Integer userId, Boolean status) {
+    public Request(Integer requestId, String title, Float reimbursementAmount, String message, Integer employeeId, Boolean status) {
         this.requestId = requestId;
         this.title = title;
         this.reimbursementAmount = reimbursementAmount;
         this.message = message;
-        this.userId = userId;
+        this.employeeId = employeeId;
         this.status = status;
     }
 
-    public Request(String title, Float reimbursementAmount, String message, Integer userId, Boolean status) {
+    public Request(String title, Float reimbursementAmount, String message, Integer employeeId, Boolean status) {
         this.title = title;
         this.reimbursementAmount = reimbursementAmount;
         this.message = message;
-        this.userId = userId;
+        this.employeeId = employeeId;
         this.status = status;
     }
 
-    public Request(String title, Float reimbursementAmount, String message, Integer userId) {
+    public Request(String title, Float reimbursementAmount, String message, Integer employeeId) {
         this.title = title;
         this.reimbursementAmount = reimbursementAmount;
         this.message = message;
-        this.userId = userId;
+        this.employeeId = employeeId;
     }
 
     public Request(Integer requestId, String title, Float reimbursementAmount, String message) {
@@ -76,12 +76,12 @@ public class Request {
         this.message = message;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getEmployeeId() {
+        return employeeId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
     public Boolean getStatus() {
@@ -97,12 +97,12 @@ public class Request {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        return Objects.equals(requestId, request.requestId) && Objects.equals(title, request.title) && Objects.equals(reimbursementAmount, request.reimbursementAmount) && Objects.equals(message, request.message) && Objects.equals(userId, request.userId) && Objects.equals(status, request.status);
+        return Objects.equals(requestId, request.requestId) && Objects.equals(title, request.title) && Objects.equals(reimbursementAmount, request.reimbursementAmount) && Objects.equals(message, request.message) && Objects.equals(employeeId, request.employeeId) && Objects.equals(status, request.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestId, title, reimbursementAmount, message, userId, status);
+        return Objects.hash(requestId, title, reimbursementAmount, message, employeeId, status);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Request {
                 ", title='" + title + '\'' +
                 ", reimbursementAmount='" + reimbursementAmount + '\'' +
                 ", message='" + message + '\'' +
-                ", userId=" + userId +
+                ", userId=" + employeeId +
                 ", completed=" + status +
                 '}';
     }

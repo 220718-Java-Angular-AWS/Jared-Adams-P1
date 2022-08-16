@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="return confirm('Are you sure you want to delete this request?')">
+        <h1>Delete Request</h1>
+        <label>Enter Request ID#: </label>
+        <input type="number" id="requestId" required>
+        <button type="submit" onclick="deleteRequest()">Submit</button>
+    </form>
+    <h1>Current Requests</h1>
+    <div id="requestList"></div>
+</body>
+<script>
+    (async function getRequest() {
+        
+        let url = 'http://localhost:8080/Jared-Adams-P1/request';
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+ 
+            let array = await response.json();
+            let htmlElement = document.getElementById('requestList');
+
+            for(let i = 0; i < array.length; i++){
+                let request = array[i];
+                htmlElement.innerHTML += "<p>Request ID#: " + request.requestId + "</p>";
+                htmlElement.innerHTML += "<p>Title: " + request.title + "</p>";
+                htmlElement.innerHTML += "<p>Employee ID#: " + request.employeeId + "</p>";
+                htmlElement.innerHTML += "<p>Reimburesement Amount: " + request.reimbursementAmount + "</p>";
+                htmlElement.innerHTML += "<p>Message: " + request.message + "</p>";
+                htmlElement.innerHTML += "<p>Status: " + request.status + "</p><br>";
+            }
+    })(requestId);
+    async function deleteRequest() {
+        let requestId = document.getElementById("requestId").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId;
+        let response = await fetch(url, {
+            method: 'DELETE',
+            headers:{
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+
+        if (response.status == 200) {
+            alert("Request shredded!")
+        }
+    };
+</script>
+</html>

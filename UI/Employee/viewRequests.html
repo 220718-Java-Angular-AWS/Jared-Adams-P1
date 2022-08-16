@@ -7,7 +7,86 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>View Requests</h1>
-    <label></label>
+    <form onsubmit="return false">
+        <h3>Find Requests</h3>
+        <label>By Request ID#: </label>
+        <input type="number" placeholder="Enter Request ID#" id="requestId" required>
+        <button type="submit" id="myBtn" onclick="viewIndividualRequest(); clrRequest()">Find</button>
+        <button type="button" onclick="getRequest(); clrList()">Get All</button>
+    </form>
+    <br>
+    <div id="individualRequest"></div>
+    <div id="requestList"></div>
+    <button type="button" onclick="mainMenu()">Back</button>
 </body>
+<script>
+    
+    async function getRequest() {
+        
+        let url = 'http://localhost:8080/Jared-Adams-P1/request';
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+ 
+            let array = await response.json();
+            let htmlElement = document.getElementById('requestList');
+
+            for(let i = 0; i < array.length; i++){
+                let request = array[i];
+                htmlElement.innerHTML += "<p>Request ID#: " + request.requestId + "</p>";
+                htmlElement.innerHTML += "<p>Title: " + request.title + "</p>";
+                htmlElement.innerHTML += "<p>Employee ID#: " + request.employeeId + "</p>";
+                htmlElement.innerHTML += "<p>Reimburesement Amount: " + request.reimbursementAmount + "</p>";
+                htmlElement.innerHTML += "<p>Message: " + request.message + "</p>";
+                htmlElement.innerHTML += "<p>Status: " + request.status + "</p><br>";
+            }
+    };
+    
+    async function viewIndividualRequest() {
+        
+        let requestId = document.getElementById("requestId").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        
+        let request = await response.json()
+        let htmlElement = document.getElementById("individualRequest");
+        
+        if(request.title != null){
+                htmlElement.innerHTML += "<p>Request ID#: " + request.requestId + "</p>";
+                htmlElement.innerHTML += "<p>Title: " + request.title + "</p>";
+                htmlElement.innerHTML += "<p>Employee ID#: " + request.employeeId + "</p>";
+                htmlElement.innerHTML += "<p>Reimburesement Amount: " + request.reimbursementAmount + "</p>";
+                htmlElement.innerHTML += "<p>Message: " + request.message + "</p>";
+                htmlElement.innerHTML += "<p>Status: " + request.status + "</p><br>";
+        }else{
+            alert("Request does not exist!")
+        }
+        
+        
+    }
+
+    async function clrList() {
+        let list = document.getElementById("requestList");
+        list.innerHTML = "";
+    }
+    
+    async function clrRequest(){
+        let request = document.getElementById("individualRequest");
+        request.innerHTML = "";
+    }
+
+    async function mainMenu(){
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html";
+    }
+
+    async
+</script>
 </html>

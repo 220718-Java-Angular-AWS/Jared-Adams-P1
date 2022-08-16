@@ -35,6 +35,6 @@ public class EmployeeService {
     }
 
     public Employee logIn(String credentials, String password) {
-        return dao.logInUsername(credentials, password);
+        return dao.logInEmployee(credentials, password);
     }
 }
