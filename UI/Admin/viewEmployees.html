@@ -12,11 +12,14 @@
         <label>Enter Employee ID#: </label>
         <input type="number" placeholder="ID#" id="employeeId" required>
         <button type="submit" id="myBtn" onclick="viewIndividualEmployee(); clrEmployee()">Find</button>
+        <button type="button" onclick="clrEmployee()">Clear</button>
         <button type="button" onclick="getEmployee(); clrList()">Find All</button>
+        <button type="button" onclick="clrList()">Clear All</button>
     </form>
     <br>
-    <div id="individualEmployee"></div>
-    <div id="employeeList"></div>
+    <table id="individualEmployee"></table><br><br>
+    <table id="employeeTable"></table>
+    <button type="submit" onclick="returnMainMenu()">Back</button>
 </body>
 <script>
     
@@ -31,16 +34,24 @@
         });
             
             let array = await response.json();
-            let htmlElement = document.getElementById('employeeList');
+            let table = document.getElementById('employeeTable');
+            table.style.border = "1px solid black";
+            table.style.background = "#8fccf2";
+            
+            table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+            "<th style='width: 5%; border: 1px solid black'>First Name</th>" +
+            "<th style='width: 20%; border: 1px solid black'>Last Name</th>" +
+            "<th style='width: 10%; border: 1px solid black'>Email</th>" +
+            "<th style='border: 1px solid black'>Username</th></tr>"
 
             for(let i = 0; i < array.length; i++){
                 let employee = array[i];
-                htmlElement.innerHTML += "<p>Employee ID#: " + employee.employeeId + "</p>";
-                htmlElement.innerHTML += "<p>First Name: " + employee.firstName + "</p>";
-                htmlElement.innerHTML += "<p>Last Name: " + employee.lastName + "</p>";
-                htmlElement.innerHTML += "<p>Email: " + employee.email + "</p>";
-                htmlElement.innerHTML += "<p>Username: " + employee.username + "</p>";
-                htmlElement.innerHTML += "<p>Password: " + employee.password + "</p><br>";
+                table.innerHTML += "<tr><th style='width: 5%; border: 1px solid black'>" + employee.employeeId +
+                "</th><th style='width: 5%; border: 1px solid black'>" + employee.firstName + 
+                "</th> <th style='border: 1px solid black'>" + employee.lastName +
+                "</th><th style='width: 10%; border: 1px solid black'>" + employee.email +
+                "</th><th style='border: 1px solid black'>" + employee.username +
+                "</th></tr>"
             }
     };
     
@@ -56,31 +67,49 @@
         });
         
         let employee = await response.json();
-        let htmlElement = document.getElementById("individualEmployee");
+        let table = document.getElementById('individualEmployee');
+        
+    
+        table.style.border = "1px solid black";
+        table.style.background = "#8fccf2";
+            
+        table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+        "<th style='width: 5%; border: 1px solid black'>First Name</th>" +
+        "<th style='width: 20%; border: 1px solid black'>Last Name</th>" +
+        "<th style='width: 10%; border: 1px solid black'>Email</th>" +
+        "<th style='border: 1px solid black'>Username</th></tr>"
         
         if(employee.firstName != null){
-            htmlElement.innerHTML += "<p>Employee ID#: " + employee.employeeId + "</p>";
-            htmlElement.innerHTML += "<p>First Name: " + employee.firstName + "</p>";
-            htmlElement.innerHTML += "<p>Last Name: " + employee.lastName + "</p>";
-            htmlElement.innerHTML += "<p>Email: " + employee.email + "</p>";
-            htmlElement.innerHTML += "<p>Username: " + employee.username + "</p>";
-            htmlElement.innerHTML += "<p>Password: " + employee.password + "</p>";
+            table.innerHTML += "<tr><th style='width: 5%; border: 1px solid black'>" + employee.employeeId +
+                "</th><th style='width: 5%; border: 1px solid black'>" + employee.firstName + 
+                "</th> <th style='border: 1px solid black'>" + employee.lastName +
+                "</th><th style='width: 10%; border: 1px solid black'>" + employee.email +
+                "</th><th style='border: 1px solid black'>" + employee.username +
+                "</th></tr>"
+            
         }else{
             alert("Employee does not exist!")
+            table.style.border = "none";
+            table.innerHTML = "";
         }
         
         
     }
 
     async function clrList() {
-        let list = document.getElementById("employeeList");
-        list.innerHTML = "";
+        let table = document.getElementById("employeeTable");
+        table.style.border = "none";
+        table.innerHTML = "";
     }
     
     async function clrEmployee(){
-        let employee = document.getElementById("individualEmployee");
-        employee.innerHTML = "";
+        let table = document.getElementById("individualEmployee");
+        table.style.border = "none";
+        table.innerHTML = "";
 
+    }
+    async function returnMainMenu() {
+        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Admin/adminMenu.html';
     }
 </script>
 </html>

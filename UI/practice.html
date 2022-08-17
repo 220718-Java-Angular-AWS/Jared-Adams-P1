@@ -8,11 +8,27 @@
 </head>
 <body>
     <h1>Edit Request</h1><br>
-    <label for="Id">Request ID#</label>
-    <select name="Id" id="Id" style="width: 100px"></select>
+    <form action="">
+        <label for="Id">Request ID#</label>
+        <select name="requestId" id="Id" style="width: 100px"></select>
+        <button type="button" id="submitId" onclick="showRequest()">Edit</button>
+    </form>
+    <br>
+    <label>Title: </label>
+    <input type="text" name="title" id="title" value="" style="width: 500px;">
+    <br><br>
+    <label>Reimbursement Amount: </label>
+    <input type="number" name="amount" id="amount" min="0" value="" maxlength="100000" step=".01">
+    <br><br>
+    <label>Message</label>
+    <br>
+    <textarea type="text" name="message" rows="6" cols="100" value="" id="message"></textarea>
+    <br>
+    <button type="button" id="btn" onclick="editRequest()">Submit</button>
+    <button type="button" onclick="returnMainMenu()">Back</button>
 </body>
 <script>
-    (async function showRequest() {
+    (async function selectRequest() {
         let currentEmployeeId = window.localStorage.getItem('userId');
         let currentEmployeeStatus = localStorage.getItem('admin');
         let url = 'http://localhost:8080/Jared-Adams-P1/request?employee-id=' + currentEmployeeId;
@@ -23,13 +39,36 @@
             }
         });
         
-        let array = await response.json()
-        let selector = document.getElementById("Id")
+        let array = await response.json();
+        let selector = document.getElementById("Id");
         for(let i = 0; i < array.length; i++){
             let request = array[i];
-            selector.innerHTML += "<option value='requestId" + i + "'>" + request.requestId;
-        }       
+            selector.innerHTML += "<option>" + request.requestId + "</option>";
+        }
+
+        
     })();
+
+    async function showRequest() {
+        
+        let currentEmployeeId = window.localStorage.getItem('userId');
+        let currentEmployeeStatus = localStorage.getItem('admin');
+        let requestId = document.getElementById("Id").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId + "&employee-id=" + currentEmployeeId;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        let request = await response.json();
+        console.log("made it here");
+        document.getElementsByName('title')[0].value= request.title;
+        document.getElementsByName('amount')[0].value= request.reimbursementAmount;
+        document.getElementsByName('message')[0].value= request.message;
+
+    }
+    
 
 </script>
 </html>

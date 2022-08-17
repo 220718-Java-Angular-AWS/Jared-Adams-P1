@@ -32,6 +32,10 @@ public class EmployeeService {
         dao.update(employee, employeeId);
     }
 
+    public void adminUpdate(Integer employeeId, Boolean admin){
+        dao.adminUpdate(employeeId, admin);
+    }
+
     public void deleteEmployee(int id) {
         dao.delete(id);
     }

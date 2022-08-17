@@ -120,8 +120,35 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
 
     }
 
+    public void adminUpdate(Integer employeeId, Boolean admin){
+        try{
+            String sql = "UPDATE employees SET admin = ? WHERE employee_id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setBoolean(1, admin);
+            pstmt.setInt(2, employeeId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void delete(int id) {
+        try{
+            String sql = "DELETE FROM requests WHERE employee_id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            if(id == 1){
+                throw new Exception();
+            }else {
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         try {
             String sql = "DELETE FROM employees WHERE employee_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);

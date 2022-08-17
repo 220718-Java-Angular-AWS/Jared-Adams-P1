@@ -8,5 +8,30 @@
 </head>
 <body>
     <h1>Admin Menu</h1>
+    <button type="button" onclick="viewEmployees()">View Employees</button><br><br>
+    <button type="button" onclick="updateEmployee()">Update Employees</button><br><br>
+    <button type="button" onclick="deleteEmployee()">Delete Employee</button><br><br>
+   
+    <button type="button" onclick="viewRequests()">View Requests</button><br><br>
+    
+    <button type="button" onclick="logOut()">Log Out</button>
 </body>
+<script>
+    async function viewEmployees() {
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Admin/viewEmployees.html"
+    }
+    async function viewRequests() {
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Admin/adminViewRequest.html"
+    }
+    async function deleteRequest() {
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/deleteRequest.html"
+    }
+    async function deleteEmployee() {
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Admin/deleteEmployee.html"
+    }
+    async function logOut() {
+        window.localStorage.clear();
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Guest/LogIn.html"
+    }
+</script>
 </html>

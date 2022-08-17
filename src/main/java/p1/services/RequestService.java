@@ -24,11 +24,11 @@ public class RequestService {
     public Request getSingleRequestForEmployee(int requestId, int employeeId){
         return dao.getSingleRequestForEmployee(requestId, employeeId);
     }
-    public List<Request> getRequestForEmployee(int id){
+    public List<Request> getRequestsForEmployee(int id){
         return dao.readRequestsByEmployee(id);
     }
 
-    public List<Request> getListStatus(Boolean status){
+    public List<Request> readStatus(String status){
         return dao.readStatus(status);
     }
 
@@ -36,8 +36,8 @@ public class RequestService {
         return dao.readALL();
     }
 
-    public void updateRequest(Request request, Integer requestId) {
-        dao.update(request, requestId);
+    public void updateRequest(Request request, Integer requestId, String status) {
+        dao.updateStatus(request, requestId, status);
     }
     public void updateRequestById(Request request, Integer requestId, Integer employeeId) {
         dao.update(request, requestId, employeeId);

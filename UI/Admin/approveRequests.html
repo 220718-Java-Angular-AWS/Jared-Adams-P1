@@ -14,23 +14,32 @@
     }
 </style>
 <body>
-    <h1>Edit Request</h1><br>
+    <h1>Change Status of Requests</h1><br>
     <form action="">
     <label for="Id">Request ID#</label>
     <select name="requestId" id="Id" style="width: 100px"></select>
-    <button type="button" id="submitId" onclick="showRequest()">Edit</button>
+    <button type="button" id="submitId" onclick="showRequest()">View</button>
     </form>
     <br>
+    <label>Employee ID#: </label>
+    <input type="text" name="employeeId" id="employeeId" value="" readonly>
+    <br><br>
     <label>Title: </label>
-    <input type="text" name="title" id="title" value="" style="width: 500px;">
+    <input type="text" name="title" id="title" value="" style="width: 500px;" readonly>
     <br><br>
     <label>Reimbursement Amount: </label>
-    <input type="number" name="amount" id="amount" min="0" value="" maxlength="100000" step=".01">
+    <input type="number" name="amount" id="amount" min="0" value="" maxlength="100000" step=".01" readonly>
     <br><br>
     <label>Message</label>
     <br>
-    <textarea type="text" name="message" rows="6" cols="100" value="" id="message"></textarea>
+    <textarea type="text" name="message" rows="6" cols="100" value="" id="message" readonly></textarea>
     <br>
+    <select id="status">
+        <option value="PENDING">PENDING</option>
+        <option value="APPROVED">APPROVED</option>
+        <option value="DENIED">DENIED</option>
+    </select>
+    <br><br>
     <button type="button" id="btn" onclick="editRequest()">Submit</button>
     <button type="button" onclick="returnMainMenu()">Back</button>
 </body>
@@ -39,7 +48,7 @@
     let currentEmployeeStatus = localStorage.getItem('admin');
 
     (async function selectRequest() {
-        let url = 'http://localhost:8080/Jared-Adams-P1/request?employee-id=' + currentEmployeeId;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request';
         let response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -59,11 +68,8 @@
     })();
 
     async function showRequest() {
-        
-        let currentEmployeeId = window.localStorage.getItem('userId');
-        let currentEmployeeStatus = localStorage.getItem('admin');
         let requestId = document.getElementById("Id").value;
-        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId + "&employee-id=" + currentEmployeeId;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId;
         let response = await fetch(url, {
             method: 'GET',
             headers:{
@@ -71,7 +77,8 @@
             }
         });
         let request = await response.json();
-        console.log("made it here");
+        
+        document.getElementsByName('employeeId')[0].value= request.employeeId;
         document.getElementsByName('title')[0].value= request.title;
         document.getElementsByName('amount')[0].value= request.reimbursementAmount;
         document.getElementsByName('message')[0].value= request.message;
@@ -80,13 +87,15 @@
     async function editRequest() {
         
         let requestId = document.getElementById("Id").value;
+        let approval = document.getElementById("status").value;
         let request = {
             title: document.getElementById("title").value,
             reimbursementAmount: document.getElementById("amount").value,
-            message: document.getElementById("message").value
+            message: document.getElementById("message").value,
+            status: document.getElementById("status").value
         }
                 
-        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId+ '&employee-id=' + currentEmployeeId;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId + "&status=" + approval;
         let response = await fetch(url, {
             method: 'PUT',
             headers: {
@@ -101,11 +110,11 @@
         }else{
             alert("Failed to update");
         }
-        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/editRequest.html';
+        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Admin/adminMenu.html';1
         
     }
     async function returnMainMenu() {
-        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html';
+        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Admin/adminMenu.html';
     }
     
 </script>

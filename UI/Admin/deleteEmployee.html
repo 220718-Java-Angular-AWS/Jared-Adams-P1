@@ -13,6 +13,7 @@
         <input type="number" id="employeeId" required>
         <button type="submit" onclick="deleteEmployee()">Submit</button>
     </form>
+    <button type="submit" onclick="returnMainMenu()">Back</button>
 </body>
 <script>
     async function deleteEmployee() {
@@ -24,10 +25,16 @@
                 'Content-Type': 'application/json; charset=utf-8'
             }
         });
-
+        
         if (response.status == 200) {
             alert("Critical Hit!")
+        }else{
+            alert("Employee does not exist!")
         }
+        
     };
+    async function returnMainMenu() {
+        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Admin/adminMenu.html';
+    }
 </script>
 </html>
