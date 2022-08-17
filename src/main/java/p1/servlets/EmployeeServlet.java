@@ -74,16 +74,8 @@ public class EmployeeServlet extends HttpServlet {
         Integer employeeId = Integer.parseInt(param);
         Boolean admin = Boolean.parseBoolean(adminParam);
         if(adminParam != null){
-            StringBuilder builder = new StringBuilder();
-            BufferedReader buffer = req.getReader();
-            while(buffer.ready()){
-                builder.append(buffer.readLine());
-            }
-            String json = builder.toString();
-            Boolean updateAdmin = mapper.readValue(json, admin, Employee.class);
-            service.adminUpdate(employeeId, updateAdmin);
+            service.adminUpdate(employeeId, admin);
         }else{
-
             StringBuilder builder = new StringBuilder();
             BufferedReader buffer = req.getReader();
             while (buffer.ready()){
@@ -94,8 +86,6 @@ public class EmployeeServlet extends HttpServlet {
 
             service.updateEmployee(updateEmployee, employeeId);
         }
-
-
         resp.setStatus(200);
         resp.setContentType("Application/Json, Charset=UTF-8");
     }

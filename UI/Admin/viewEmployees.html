@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Employees</title>
 </head>
+<style>
+    table, th, td {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+</style>
 <body>
     <form onsubmit="return false">
         <h3>Find Employee by ID#</h3>
@@ -13,18 +20,17 @@
         <input type="number" placeholder="ID#" id="employeeId" required>
         <button type="submit" id="myBtn" onclick="viewIndividualEmployee(); clrEmployee()">Find</button>
         <button type="button" onclick="clrEmployee()">Clear</button>
-        <button type="button" onclick="getEmployee(); clrList()">Find All</button>
+        <button type="button" onclick="getAllEmployees(); clrList()">Find All</button>
         <button type="button" onclick="clrList()">Clear All</button>
     </form>
     <br>
-    <table id="individualEmployee"></table><br><br>
-    <table id="employeeTable"></table>
+    <table id="individualEmployee" style="width: 75%"></table><br><br>
+    <table id="employeeTable" style="width: 75%"></table>
     <button type="submit" onclick="returnMainMenu()">Back</button>
 </body>
 <script>
     
-    async function getEmployee() {
-       
+    (async function getAllEmployees() {       
         let url = 'http://localhost:8080/Jared-Adams-P1/employee';
         let response = await fetch(url, {
             method: 'GET',
@@ -38,22 +44,23 @@
             table.style.border = "1px solid black";
             table.style.background = "#8fccf2";
             
-            table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
-            "<th style='width: 5%; border: 1px solid black'>First Name</th>" +
-            "<th style='width: 20%; border: 1px solid black'>Last Name</th>" +
-            "<th style='width: 10%; border: 1px solid black'>Email</th>" +
-            "<th style='border: 1px solid black'>Username</th></tr>"
+            table.innerHTML = "<tr><th style='border: 1px solid black'>Employee ID#</th>" +
+            "<th style='border: 1px solid black'>First Name</th>" +
+            "<th style='border: 1px solid black'>Last Name</th>" +
+            "<th style='border: 1px solid black'>Email</th>" +
+            "<th style='border: 1px solid black'>Username</th>" +
+            "<th style='width: 10%; border: 1px solid black'>Admin</th></tr>"
 
             for(let i = 0; i < array.length; i++){
                 let employee = array[i];
-                table.innerHTML += "<tr><th style='width: 5%; border: 1px solid black'>" + employee.employeeId +
-                "</th><th style='width: 5%; border: 1px solid black'>" + employee.firstName + 
-                "</th> <th style='border: 1px solid black'>" + employee.lastName +
-                "</th><th style='width: 10%; border: 1px solid black'>" + employee.email +
-                "</th><th style='border: 1px solid black'>" + employee.username +
-                "</th></tr>"
+                table.innerHTML += "<tr><td style='border: 1px solid black'>" + employee.employeeId +
+                "</td><td style='border: 1px solid black'>" + employee.firstName + 
+                "</td><td style='border: 1px solid black'>" + employee.lastName +
+                "</td><td style='border: 1px solid black'>" + employee.email +
+                "</td><td style='border: 1px solid black'>" + employee.username +
+                "</td><td style='border: 1px solid black'>" + employee.admin+ "</td></tr>"
             }
-    };
+    })();
     
     async function viewIndividualEmployee() {
         
@@ -73,19 +80,20 @@
         table.style.border = "1px solid black";
         table.style.background = "#8fccf2";
             
-        table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
-        "<th style='width: 5%; border: 1px solid black'>First Name</th>" +
-        "<th style='width: 20%; border: 1px solid black'>Last Name</th>" +
-        "<th style='width: 10%; border: 1px solid black'>Email</th>" +
-        "<th style='border: 1px solid black'>Username</th></tr>"
+        table.innerHTML = "<tr><th style='border: 1px solid black'>Employee ID#</th>" +
+        "<th style='border: 1px solid black'>First Name</th>" +
+        "<th style='border: 1px solid black'>Last Name</th>" +
+        "<th style='border: 1px solid black'>Email</th>" +
+        "<th style='border: 1px solid black'>Username</th>" +
+        "<th style='width: 10%; border: 1px solid black'>Admin</th></tr>"
         
         if(employee.firstName != null){
-            table.innerHTML += "<tr><th style='width: 5%; border: 1px solid black'>" + employee.employeeId +
-                "</th><th style='width: 5%; border: 1px solid black'>" + employee.firstName + 
-                "</th> <th style='border: 1px solid black'>" + employee.lastName +
-                "</th><th style='width: 10%; border: 1px solid black'>" + employee.email +
-                "</th><th style='border: 1px solid black'>" + employee.username +
-                "</th></tr>"
+            table.innerHTML += "<tr><td style='border: 1px solid black'>" + employee.employeeId +
+                "</td><td style='border: 1px solid black'>" + employee.firstName + 
+                "</td><td style='border: 1px solid black'>" + employee.lastName +
+                "</td><td style='border: 1px solid black'>" + employee.email +
+                "</td><td style='border: 1px solid black'>" + employee.username +
+                "</td><td style='border: 1px solid black'>" + employee.admin+ "</td></tr>"
             
         }else{
             alert("Employee does not exist!")

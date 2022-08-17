@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Update Profile</h1>
+    <label>First Name: </label>
+    <input type="text" name="fName" id="fName" value="">
+    <br><br>
+    <label>Last Name: </label>
+    <input type="text" name="lName" id="lName" value="">
+    <br><br>
+    <label>Email: </label>
+    <input type="text" name="email" id="email" value="">
+    <br><br>
+    <label>Username: </label>
+    <input type="text" name="username" id="username" value="">
+    <br><br>
+    <label>Password: </label>
+    <input type="password" name="password" id="password" value="">
+    <br><br>
+    <button type="submit" onclick="updateInfo()">Update</button>
+    <button type="button" onclick="returnMainMenu()">Back</button>
+</body>
+<script>
+    let currentEmployee = window.localStorage.getItem('userId');
+    (async function inputInfo() {
+        
+        let url = "http://localhost:8080/Jared-Adams-P1/employee?employee-id=" + currentEmployee;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+
+        let employee = await response.json()
+        document.getElementsByName('fName')[0].value= employee.firstName;
+        document.getElementsByName('lName')[0].value= employee.lastName;
+        document.getElementsByName('email')[0].value= employee.email;
+        document.getElementsByName('username')[0].value= employee.username;
+        document.getElementsByName('password')[0].value= employee.password;
+    })();
+
+    async function updateInfo() {
+        let request = {
+            firstName: document.getElementById("fName").value,
+            lastName: document.getElementById("lName").value,
+            email: document.getElementById("email").value,
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+        }
+        let url = "http://localhost:8080/Jared-Adams-P1/employee?employee-id=" + currentEmployee;
+        let response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify(request)
+        });
+        if(response.status == 200) {
+            alert("Info updated!")
+        }else{
+            alert("Failed to update")
+        }
+        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html'
+    }
+
+    async function returnMainMenu() {
+        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html';
+    }
+</script>
+</html>

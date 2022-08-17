@@ -17,10 +17,12 @@
     <form onsubmit="return false">
         <h3>Find Requests</h3>
         <label>By Request ID#: </label>
-        <input type="number" placeholder="Enter Request ID#" id="requestId" required>
-        <button type="submit" id="myBtn" onclick="viewIndividualRequest(); clrRequest()">Find</button>
-        <button type="button" onclick="getRequest(); clrList()">Get All</button>
+        <select name="requestId" id="Id" style="width: 100px"></select>
+        <input type="text" name="status" value="" hidden>
+        <button type="submit" id="myBtn" onclick="setStatus(); clrStatus()">Set Status</button>
+        <button type="submit" id="myBtn" onclick="viewIndividualRequest(); setStatus(); clrRequest()">Find</button>
         <button type="button" onclick="clrRequest()">Clear</button>
+        <button type="button" onclick="getRequest(); clrList()">Get All</button>
         <button type="button" onclick="clrList()">Clear List</button>
     </form>
     <br>
@@ -29,10 +31,47 @@
     <button type="button" onclick="mainMenu()">Back</button>
 </body>
 <script>
-    
+    let currentEmployeeId = window.localStorage.getItem('userId');
+    let currentEmployeeStatus = localStorage.getItem('admin');
+    (async function selectRequest() {
+        
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?employee-id=' + currentEmployeeId;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        
+        let array = await response.json();
+        console.log(array)
+        let selector = document.getElementById("Id");
+        
+        for(let i = 0; i < array.length; i++){
+            let request = array[i];
+            selector.innerHTML += "<option>" + request.requestId + "</option>";           
+        }
+        
+        
+        
+    })();
+    async function setStatus() {
+        let requestId = document.getElementById("Id").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        let request = await response.json();
+        
+        document.getElementsByName('status')[0].value = request.status;
+
+    };
+
+
     async function getRequest() {
-        let currentEmployeeId = window.localStorage.getItem('userId');
-        let currentEmployeeStatus = localStorage.getItem('admin');
         let url = 'http://localhost:8080/Jared-Adams-P1/request?employee-id=' + currentEmployeeId;
         let response = await fetch(url, {
             method: 'GET',
@@ -42,11 +81,11 @@
         });
  
         let array = await response.json();
-        let htmlElement = document.getElementById('requestTable')
-        htmlElement.style.border = "1px solid black" ;
-        htmlElement.style.background = "#8fccf2";
+        let table = document.getElementById('requestTable')
+        table.style.border = "1px solid black" ;
+        table.style.background = "#8fccf2";
             
-        htmlElement.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+        table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
             "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
             "<th style='width: 20%; border: 1px solid black'>Title</th>" +
             "<th style='width: 10%; border: 1px solid black'>Reimburesement Amount</th>" +
@@ -54,7 +93,7 @@
             "<th style='width: 10%; border: 1px solid black'>Status</th></tr>"
         for(let i = 0; i < array.length; i++){
             let request = array[i];
-            htmlElement.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
+            table.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
             "</td><td style='width: 5%; border: 1px solid black'>" + request.requestId + 
             "</td><td style='border: 1px solid black'>" + request.title + 
             "</td><td style='width: 10%; border: 1px solid black'>" + request.reimbursementAmount + 
@@ -65,10 +104,9 @@
     };
     
     async function viewIndividualRequest() {
-        let currentEmployeeId = window.localStorage.getItem('userId');
-        let currentEmployeeStatus = localStorage.getItem('admin');
-        let requestId = document.getElementById("requestId").value;
-        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId + "&employee-id=" + currentEmployeeId;
+        let requestId = document.getElementById("Id").value;
+        let status = document.getElementById("Id").value
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId + "&employee-id=" + currentEmployeeId + "&status=" + status;
         let response = await fetch(url, {
             method: 'GET',
             headers:{
@@ -77,12 +115,12 @@
         });
         
         let request = await response.json()
-        let htmlElement = document.getElementById("individualRequest")
+        let table = document.getElementById("individualRequest")
 
-        htmlElement.style.border = "1px solid black";
-        htmlElement.style.background = "#8fccf2";
+        table.style.border = "1px solid black";
+        table.style.background = "#8fccf2";
 
-        htmlElement.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+        table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
                 "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
                 "<th style='border: 1px solid black'>Title</th>" +
                 "<th style='width: 10%; border: 1px solid black'>Reimburesement Amount</th>" +
@@ -90,7 +128,7 @@
                 "<th style='width: 10%; border: 1px solid black'>Status</th></tr>"
         
         if(request.title != null){
-            htmlElement.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
+            table.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
                 "</td><td style='width: 5%; border: 1px solid black'>" + request.requestId + 
                 "</td><td style='border: 1px solid black'>" + request.title + 
                 "</td><td style='width: 10%; border: 1px solid black'>" + request.reimbursementAmount + 
@@ -99,15 +137,22 @@
                 "</td></tr>"
         }else{
             alert("Request does not exist!")
+            table.style.border = "none";
+            table.innerHTML = "";
         }
         
         
     }
+    async function clrStatus() {
+        let status = document.getElementsByName("status")[0].value = "";
+        
+    }
+
 
     async function clrList() {
-        let list = document.getElementById("requestTable");
-        list.style.border = "none";
-        list.innerHTML = "";
+        let table = document.getElementById("requestTable");
+        table.style.border = "none";
+        table.innerHTML = "";
     }
     
     async function clrRequest(){

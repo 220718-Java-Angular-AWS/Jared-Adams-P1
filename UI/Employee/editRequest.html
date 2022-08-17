@@ -48,20 +48,17 @@
         });
         
         let array = await response.json();
+        console.log(array)
         let selector = document.getElementById("Id");
         for(let i = 0; i < array.length; i++){
-            let request = array[i];
-            
-            selector.innerHTML += "<option>" + request.requestId + "</option>";
+                let request = array[i];
+                if(request.status == "PENDING") {
+                    selector.innerHTML += "<option>" + request.requestId + "</option>";
+                }  
         }
-        
-        
     })();
 
     async function showRequest() {
-        
-        let currentEmployeeId = window.localStorage.getItem('userId');
-        let currentEmployeeStatus = localStorage.getItem('admin');
         let requestId = document.getElementById("Id").value;
         let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId + "&employee-id=" + currentEmployeeId;
         let response = await fetch(url, {
@@ -71,7 +68,6 @@
             }
         });
         let request = await response.json();
-        console.log("made it here");
         document.getElementsByName('title')[0].value= request.title;
         document.getElementsByName('amount')[0].value= request.reimbursementAmount;
         document.getElementsByName('message')[0].value= request.message;
@@ -101,7 +97,7 @@
         }else{
             alert("Failed to update");
         }
-        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/editRequest.html';
+        //location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/editRequest.html';
         
     }
     async function returnMainMenu() {

@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Employee Menu</h1>
+    <button type="button" onclick="updateEmployee()">Update Profile</button><br><br>
     <button type="button" onclick="newRequest()">New Request</button><br><br>
     <button type="button" onclick="viewRequest()">View Requests</button><br><br>
     <button type="button" onclick="deleteRequest()">Delete Requests</button><br><br>
@@ -16,6 +17,9 @@
    
 </body>
 <script>
+    async function updateEmployee() {
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/updateEmployee.html"
+    }
     async function newRequest() {
         location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Employee/newRequest.html"
     }

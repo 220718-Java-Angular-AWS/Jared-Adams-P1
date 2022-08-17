@@ -34,7 +34,7 @@
     <br>
         <textarea type="text" name="message" rows="6" cols="100" value="" id="message" readonly></textarea>
     <br>
-    <select id="updateStatus">
+    <select id="updateStatus" name="updateStatus">
         <option value="PENDING">PENDING</option>
         <option value="APPROVED">APPROVED</option>
         <option value="DENIED">DENIED</option>
@@ -72,7 +72,7 @@
     <table style="width: 75%" id="statusTable"></table><br><br>
     <form onsubmit="return false">
         <label>All Requests: </label>
-        <button type="button" onclick="getAllRequests(); clrList()">Get All</button>
+        <button type="button" onclick="getAllRequests(); clrAll()">Get All</button>
         <button type="button" onclick="clrAll()">Clear</button>
     </form>
     <h2 id="allHeader"></h2>
@@ -284,6 +284,7 @@
         document.getElementsByName('title')[0].value= request.title;
         document.getElementsByName('amount')[0].value= request.reimbursementAmount;
         document.getElementsByName('message')[0].value= request.message;
+        document.getElementsByName('updateStatus')[0].value = request.status;
 
     }
     async function editRequest() {

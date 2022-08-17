@@ -24,10 +24,12 @@ public class RequestService {
     public Request getSingleRequestForEmployee(int requestId, int employeeId){
         return dao.getSingleRequestForEmployee(requestId, employeeId);
     }
+    public Request employeeReadSingleRequest(Integer requestId, Integer employeeId){
+        return dao.employeeReadSingleRequest(requestId, employeeId);
+    }
     public List<Request> getRequestsForEmployee(int id){
         return dao.readRequestsByEmployee(id);
     }
-
     public List<Request> readStatus(String status){
         return dao.readStatus(status);
     }
