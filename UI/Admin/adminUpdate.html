@@ -26,8 +26,8 @@
         vertical-align: middle;
 }
 </style>
-<body>    
-    <h1>Throw Employee to the Wolves</h1>
+<body>
+    <h1>Update Admin Status</h1>
     <label>Select Employee: </label>
     <select name="employeeId" id="employeeId" style="width: 200px"></select>
     <button type="button" id="btn" onclick="selectEmployee()">Find</button>
@@ -45,10 +45,18 @@
     <input type="text" name="username" id="username" value="" style="width: 200px" readonly>
     <br><br>
     <label>Password: </label>
-    <input type="password" name="password" id="password" value="" style="width: 203px" readonly>
+    <input type="password" name="password" id="password" value="" style="width: 203px" readonly>   
     <br><br>
-    <button type="submit" onclick="deleteEmployee()">Delete</button>
-    <button type="submit" onclick="returnMainMenu()">Back</button>
+    <label>Admin: </label>   
+    <select name="admin" id="admin" style="width: 75px">
+        <option value="true">true</option>
+        <option value="false">false</option>
+    </select>
+    <br><br>  
+    <div id="buttonDiv">        
+    </div>
+    <br>
+    <button type="button" onclick="adminMainMenu()">Back</button>
 </body>
 <script>
     (async function listEmployees() {
@@ -83,28 +91,34 @@
         document.getElementsByName('email')[0].value = employee.email;
         document.getElementsByName('username')[0].value = employee.username;
         document.getElementsByName('password')[0].value = employee.password;
+
+        let div = document.getElementById('buttonDiv');
+        div.innerHTML = "<button type='button' onclick='updateAdmin()'>Submit</button>"
+    }
+
+    async function updateAdmin() {
+        let admin = document.getElementById("admin").value;
+        let userId = document.getElementById("employeeId").value;
+        let url = "http://localhost:8080/Jared-Adams-P1/employee?employee-id=" + userId + "&admin=" + admin;
+        let response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json; charset=utf8'
+            },
+        });
+
+        if(response.status == 200) {
+            alert("Success!")
+        }else{
+            alert("Failed to update!")
+        }
         
     }
-    async function deleteEmployee() {
-        let employeeId = document.getElementById("employeeId").value;
-        let url = 'http://localhost:8080/Jared-Adams-P1/employee?employee-id=' + employeeId;
-        let response = await fetch(url, {
-            method: 'DELETE',
-            headers:{
-                'Content-Type': 'application/json; charset=utf-8'
-            }
-        });
-        
-        if (response.status == 200) {
-            alert("Critical Hit!")
-        }else{
-            alert("Employee does not exist!")
-        }
-        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Admin/deleteEmployee.html"
-        
-    };
-    async function returnMainMenu() {
-        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Admin/adminMenu.html';
+
+
+
+    async function adminMainMenu() {
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Admin/adminMenu.html";
     }
 </script>
 </html>

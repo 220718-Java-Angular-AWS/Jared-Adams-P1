@@ -73,7 +73,7 @@ public class EmployeeServlet extends HttpServlet {
         String adminParam = req.getParameter("admin");
         Integer employeeId = Integer.parseInt(param);
         Boolean admin = Boolean.parseBoolean(adminParam);
-        if(adminParam != null){
+        if(adminParam != null && employeeId != 1){
             service.adminUpdate(employeeId, admin);
         }else{
             StringBuilder builder = new StringBuilder();

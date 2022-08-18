@@ -6,14 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In</title>
 </head>
+<style>
+    html, body {
+        background-color: #8f5ced;
+        height: 40%;
+    }
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {   
+        max-width: 800px;
+        margin: auto;
+
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+}
+</style>
 <body>
     <form onsubmit = "return false">
         <h1>Log In</h1>
-            <label>Enter Email or Username: </label>
+            <label>Enter Email or Username: </label><br>
             <input type="text" placeholder="Enter Email or Username" id="credentials" required>
-            <br>
-            <label>Enter Password: </label>
-            <input type="password" placeholder="Enter Password" id="password" required>
+            <br><br>
+            <label>Enter Password: </label><br>
+            <input type="password"  placeholder="Enter Password" id="password" required>
             <br>
             <button type="submit" id="login" onclick="logInEmployee()">Log In</button>
             <button type="submit" onclick="registerEmployee()">Register New Employee</button>

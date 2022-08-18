@@ -12,22 +12,38 @@
         margin-right: auto;
         text-align: center;
     }
+    html, body {
+        background-color: #dea543;
+        height: 40%;
+    }
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {   
+        max-width: 800px;
+        margin: auto;
+
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+}
 </style>
 <body>
     <h1>Change Status of Requests</h1><br>
-    <form>
         <label for="Id">Request ID#</label>
         <select name="requestId" id="Id" style="width: 100px"></select>
         <button type="button" id="submitId" onclick="showRequest()">View</button>
-    </form>
-    <br>
+    <br><br>
         <label>Employee ID#: </label>
         <input type="text" name="employeeId" id="employeeIdStatus" value="" readonly>
     <br><br>
         <label>Title: </label>
         <input type="text" name="title" id="title" value="" style="width: 500px;" readonly>
     <br><br>
-        <label>Reimbursement Amount: </label>
+        <label>Reimbursement Amount: $</label>
         <input type="number" name="amount" id="amount" min="0" value="" maxlength="100000" step=".01" readonly>
     <br><br>
         <label>Message</label>
@@ -41,23 +57,20 @@
     </select>
     <button type="button" id="btn" onclick="editRequest()">Submit</button>
     <button type="button" onclick="mainMenu()">Back</button>
-    <form onsubmit="return false">
-        <h3>Find Requests</h3>
+    <br>
+    <h3>Find Requests</h3>
         <label>By Request ID#: </label>
-        <input type="number" placeholder="Enter Request ID#" id="requestId" required>
+        <select name="viewRequestId"  id="viewRequestId" style="width: 100px"></select>
         <button type="button" id="myBtn" onclick="getIndividualRequest()">Find</button>
         <button type="button" onclick="clrIndividual()">Clear</button><br>
-    </form>
-    <h2 id="individualHeader"></h2>
-    <table style="width: 75%" id="individualRequest"></table><br><br>
-    <form onsubmit="return false">
-        <label>By Employee ID#: </label>
-        <input type="number" placeholder="Enter Employee ID#" id="employeeId" required>
+        <h2 id="individualHeader"></h2>
+        <table style="width: 100%" id="individualRequest"></table><br>
+    <label>By Employee ID#: </label>
+    <select name="viewEmployeeId"  id="viewEmployeeId" style="width: 100px"></select>
         <button type="button" onclick="getEmployeeRequests()">Find</button>
         <button type="button" onclick="clrEmployee()">Clear</button><br>
-    </form>
     <h2 id="employeeHeader"></h2>
-    <table style="width: 75%" id="employeeRequestTable"></table><br><br>
+    <table style="width: 100%" id="employeeRequestTable"></table><br><br>
     <form onsubmit="return false">
         <label>By Status: </label>
         <select id="viewStatus">
@@ -69,19 +82,53 @@
         <button type="button" onclick="clrStatus()">Clear</button>
     </form>
     <h2 id="statusHeader"></h2>
-    <table style="width: 75%" id="statusTable"></table><br><br>
+    <table style="width: 100%" id="statusTable"></table><br><br>
     <form onsubmit="return false">
         <label>All Requests: </label>
         <button type="button" onclick="getAllRequests(); clrAll()">Get All</button>
         <button type="button" onclick="clrAll()">Clear</button>
     </form>
     <h2 id="allHeader"></h2>
-    <table style="width: 75%" id="allRequests"></table><br><br>
+    <table style="width: 100%" id="allRequests"></table><br><br>
     
 </body>
 <script>
+    (async function listRequestId() {
+        let url = "http://localhost:8080/Jared-Adams-P1/request";
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        let array = await response.json();
+        console.log(array)
+        let selector = document.getElementById("viewRequestId");
+        for(let i = 0; i < array.length; i++) {
+            let request = array[i];
+            selector.innerHTML += "<option>" + request.requestId + "</option>"
+        }
+    })();
+
+    (async function listEmployees() {
+        let url = "http://localhost:8080/Jared-Adams-P1/employee";
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        let array = await response.json();
+        console.log(array)
+        let selector = document.getElementById("viewEmployeeId");
+        for(let i = 0; i < array.length; i++) {
+            let employee = array[i];
+            selector.innerHTML += "<option>" + employee.employeeId + "</option>"
+        }
+    })();
+    
     async function getIndividualRequest() {
-        let requestId = document.getElementById("requestId").value;
+        let requestId = document.getElementById("viewRequestId").value;
         let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId;
         let response = await fetch(url, {
             method: 'GET',
@@ -124,8 +171,9 @@
         
         
     };
+    
     async function getEmployeeRequests() {        
-        let employeeId = document.getElementById('employeeId').value;
+        let employeeId = document.getElementById('viewEmployeeId').value;
         let url = 'http://localhost:8080/Jared-Adams-P1/request?employee-id=' + employeeId;
         let response = await fetch(url, {
             method: 'GET',

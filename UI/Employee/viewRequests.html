@@ -12,22 +12,40 @@
         margin-right: auto;
         text-align: center;
     }
+    html, body {
+        background-color: #f58002;
+        height: 40%;
+    }
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {   
+        max-width: 800px;
+        margin: auto;
+
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+}
 </style>
-<body>
-    <form onsubmit="return false">
-        <h3>Find Requests</h3>
-        <label>By Request ID#: </label>
-        <select name="requestId" id="Id" style="width: 100px"></select>
-        <input type="text" name="status" value="" hidden>
-        <button type="submit" id="myBtn" onclick="setStatus(); clrStatus()">Set Status</button>
-        <button type="submit" id="myBtn" onclick="viewIndividualRequest(); setStatus(); clrRequest()">Find</button>
-        <button type="button" onclick="clrRequest()">Clear</button>
-        <button type="button" onclick="getRequest(); clrList()">Get All</button>
-        <button type="button" onclick="clrList()">Clear List</button>
-    </form>
-    <br>
-    <table style="width: 75%" id="individualRequest"></table><br><br>
-    <table style="width: 75%" id="requestTable"></table>
+<body>    
+     <h3>Find Requests</h3>
+    <label>By Request ID#: </label>
+    <select name="requestId" id="Id" style="width: 100px"></select>
+    <input type="text" name="status" value="" hidden>
+    <button type="submit" id="myBtn" onclick="setStatus(); clrStatus()" hidden>Set Status</button>
+    <button type="submit" id="myBtn" onclick="viewIndividualRequest(); setStatus(); clrRequest()">Find</button>
+    <button type="button" onclick="clrRequest()">Clear</button>
+    <button type="button" onclick="getRequest(); clrList()">Get All</button>
+    <button type="button" onclick="clrList()">Clear List</button>    
+    <br><br>
+    <h2 id="individualHeader"></h2>
+    <table style="width: 100%" id="individualRequest"></table><br><br>
+    <h2 id="allHeader"></h2>
+    <table style="width: 100%" id="requestTable"></table>
     <button type="button" onclick="mainMenu()">Back</button>
 </body>
 <script>
@@ -82,8 +100,13 @@
  
         let array = await response.json();
         let table = document.getElementById('requestTable')
+        let header = document.getElementById("allHeader");
+
+        header.style.textAlign='center'
+        header.innerHTML="All Requests"
+
         table.style.border = "1px solid black" ;
-        table.style.background = "#8fccf2";
+        table.style.background = "#d925be";
             
         table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
             "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
@@ -116,9 +139,13 @@
         
         let request = await response.json()
         let table = document.getElementById("individualRequest")
+        let header = document.getElementById("individualHeader");
+
+        header.style.textAlign='center'
+        header.innerHTML="Request by Request ID#"
 
         table.style.border = "1px solid black";
-        table.style.background = "#8fccf2";
+        table.style.background = "#d925be";
 
         table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
                 "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
@@ -151,12 +178,16 @@
 
     async function clrList() {
         let table = document.getElementById("requestTable");
+        let header = document.getElementById("allHeader");
+        header.innerHTML = "";
         table.style.border = "none";
         table.innerHTML = "";
     }
     
     async function clrRequest(){
         let request = document.getElementById("individualRequest");
+        let header = document.getElementById("individualHeader");
+        header.innerHTML = "";
         request.style.border = "none";
         request.innerHTML = "";
     }

@@ -139,7 +139,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     public List<Request> readRequestsByEmployee(Integer id){
         List<Request> requestList = new LinkedList<>();
         try{
-            String sql = "SELECT * FROM requests WHERE employee_id = ? ORDER BY request_id";
+            String sql = "SELECT * FROM requests WHERE employee_id = ? ORDER BY status DESC";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, id);
             ResultSet results = pstmt.executeQuery();

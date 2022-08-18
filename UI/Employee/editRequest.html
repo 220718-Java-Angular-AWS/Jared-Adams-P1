@@ -12,6 +12,24 @@
         margin-right: auto;
         text-align: center;
     }
+    html, body {
+        background-color: #f58002;
+        height: 40%;
+    }
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {   
+        max-width: 800px;
+        margin: auto;
+
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+}
 </style>
 <body>
     <h1>Edit Request</h1><br>
@@ -22,7 +40,7 @@
     </form>
     <br>
     <label>Title: </label>
-    <input type="text" name="title" id="title" value="" style="width: 500px;">
+    <input type="text" name="title" id="title" value="" style="width: 500px">
     <br><br>
     <label>Reimbursement Amount: </label>
     <input type="number" name="amount" id="amount" min="0" value="" maxlength="100000" step=".01">
