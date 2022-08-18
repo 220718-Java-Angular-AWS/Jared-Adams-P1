@@ -13,7 +13,7 @@
         text-align: center;
     }
     html, body {
-        background-color: #f58002;
+        background-color: #8f5ced;
         height: 40%;
     }
 
@@ -36,10 +36,12 @@
     <label>Enter Request ID#: </label>
     <select name="employeeId" id="employeeId" style="width: 100px"></select>
     <button type="submit" onclick="deleteRequest()">Submit</button>
+    <button type="button" onclick="clrList()">Clear All</button> 
     </form>
     
-    <h1 style="text-align: center">Current Requests</h1>
+    <h1 style="text-align: center" id="header">Current Requests</h1>
     <table style="width: 100%;" id="requestTable"></table>
+     
     <button type="button" onclick="returnMainMenu()">Back</button>
 </body>
 <script>
@@ -119,9 +121,18 @@
         }
        
     };
+
+    async function clrList() {
+        let table = document.getElementById("requestTable");
+        let header = document.getElementById("header");
+        header.innerHTML = "";
+        table.style.border = "none";
+        table.innerHTML = "";
+    }
     
     async function returnMainMenu() {
         location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/mainMenu.html';
+        
     }
 </script>
 </html>

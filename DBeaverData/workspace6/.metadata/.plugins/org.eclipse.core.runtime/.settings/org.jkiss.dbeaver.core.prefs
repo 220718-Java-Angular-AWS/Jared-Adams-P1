@@ -1,0 +1,9 @@
+dialog.default.folder=C\:\\Users\\jared\\AppData\\Roaming\\DBeaverData\\workspace6\\General\\Scripts
+driver.selector.orderBy=score
+eclipse.preferences.version=1
+org.jkiss.dbeaver.core.confirm.drop_sql=always
+org.jkiss.dbeaver.core.confirm.exit=always
+sql.format.keywordCase=UPPER
+tipOfTheDayInitializer.notFirstRun=true
+ui.auto.update.check.time=1659710249995
+ui.show.tip.of.the.day.on.startup=false

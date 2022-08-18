@@ -34,7 +34,6 @@ public class RequestServlet extends HttpServlet {
         String employeeParam = req.getParameter("employee-id");
         String statusParam = req.getParameter("status");
 
-
         if(statusParam == null && requestParam == null && employeeParam == null) {
             List<Request> requestList = service.getListRequest();
             String json = mapper.writeValueAsString(requestList);
@@ -71,47 +70,6 @@ public class RequestServlet extends HttpServlet {
             String json = mapper.writeValueAsString(request);
             resp.getWriter().println(json);
         }
-
-
-
-
-
-
-
-//        if (statusParam != null) {
-//            List<Request> requestList = service.readStatus(statusParam);
-//            String json = mapper.writeValueAsString(requestList);
-//            resp.getWriter().println(json);
-//
-//        if(requestParam == null) {
-//            if (employeeParam == null) {
-//                List<Request> requestList = service.getListRequest();
-//                String json = mapper.writeValueAsString(requestList);
-//                resp.getWriter().println(json);
-//            } else {
-//                Integer employeeId = Integer.parseInt(employeeParam);
-//                List<Request> request = service.getRequestsForEmployee(employeeId);
-//                String json = mapper.writeValueAsString(request);
-//                resp.getWriter().println(json);
-//            }
-//        }else if(employeeParam == null){
-//            Integer requestId = Integer.parseInt(requestParam);
-//            Request request = service.getRequest(requestId);
-//            String json = mapper.writeValueAsString(request);
-//            resp.getWriter().println(json);
-//        }else {
-//            Integer requestId = Integer.parseInt(requestParam);
-//            Integer employeeId = Integer.parseInt(employeeParam);
-//            Request request = service.getSingleRequestForEmployee(requestId, employeeId);
-//            String json = mapper.writeValueAsString(request);
-//            resp.getWriter().println(json);
-//        }
-
-
-
-
-
-
         resp.setStatus(200);
         resp.setContentType("Application/Json, Charset=UTF-8");
 
@@ -141,12 +99,6 @@ public class RequestServlet extends HttpServlet {
         String employeeParam = req.getParameter("employee-id");
         String status = req.getParameter("status");
 
-
-
-
-
-
-
         if(employeeParam == null) {
             StringBuilder builder = new StringBuilder();
             BufferedReader buffer = req.getReader();
@@ -169,9 +121,6 @@ public class RequestServlet extends HttpServlet {
 
             service.updateRequestById(updateRequest, requestId, employeeId);
         }
-
-
-
 
         resp.setStatus(200);
         resp.setContentType("Application/Json, Charset=UTF-8");
