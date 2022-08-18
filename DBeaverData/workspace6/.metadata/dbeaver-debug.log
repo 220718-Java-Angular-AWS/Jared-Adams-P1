@@ -1,0 +1,81 @@
+2022-08-05 10:37:24.003 - DBeaver 22.1.3.202207240747 is starting
+2022-08-05 10:37:24.003 - OS: Windows 10 10.0 (amd64)
+2022-08-05 10:37:24.003 - Java version: 11.0.12 by Eclipse Foundation (64bit)
+2022-08-05 10:37:24.003 - Install path: 'C:\Users\jared\AppData\Local\DBeaver'
+2022-08-05 10:37:24.004 - Instance path: 'file:/C:/Users/jared/AppData/Roaming/DBeaverData/workspace6/'
+2022-08-05 10:37:24.004 - Memory available 64Mb/1024Mb
+2022-08-05 10:37:24.023 - Initializing DBeaver 22.1.3
+2022-08-05 10:37:24.023 - Host plugin: org.jkiss.dbeaver.ui.app.standalone 22.1.3.202207240747
+2022-08-05 10:37:24.024 - Initialize Core...
+2022-08-05 10:37:24.119 - BounceCastle bundle found. Use JCE provider BC
+> Start Core File Systems [org.eclipse.core.filesystem 1.9.400.v20220419-0658]
+> Start Core Resource Management [org.eclipse.core.resources 3.17.0.v20220517-0751]
+> Start Team Support Core [org.eclipse.team.core 3.9.400.v20220511-1440]
+2022-08-05 10:37:24.300 - Initialize base platform...
+> Start DBeaver UI Navigator [org.jkiss.dbeaver.ui.navigator 1.0.86.202207240747]
+> Start Expression Language [org.eclipse.core.expressions 3.8.100.v20210910-0640]
+2022-08-05 10:37:24.316 - Core initialized (292ms)
+2022-08-05 10:37:24.316 - Create display
+> Start DBeaver UI Editors - Base [org.jkiss.dbeaver.ui.editors.base 1.0.86.202207240747]
+2022-08-05 10:37:24.422 - Starting RMI server at 37144
+2022-08-05 10:37:24.560 - Run workbench
+> Start Eclipse e4 Workbench SWT [org.eclipse.e4.ui.workbench.swt 0.16.500.v20220506-1520]
+> Start Eclipse Application Services [org.eclipse.e4.core.services 2.3.200.v20220513-1235]
+> Start Eclipse UI Application Services [org.eclipse.e4.ui.services 1.5.0.v20210115-1333]
+> Start EMF XML/XMI Persistence [org.eclipse.emf.ecore.xmi 2.16.0.v20190528-0725]
+> Start Eclipse CSS SWT Theme Support [org.eclipse.e4.ui.css.swt.theme 0.13.100.v20220310-1056]
+> Start Eclipse e4 Workbench Add-ons [org.eclipse.e4.ui.workbench.addons.swt 1.4.400.v20211102-0453]
+> Start Eclipse e4 Workbench SWT Renderer [org.eclipse.e4.ui.workbench.renderers.swt 0.15.500.v20220511-1638]
+> Start Eclipse Bindings Support [org.eclipse.e4.ui.bindings 0.13.100.v20210722-1426]
+> Start Eclipse Dependency Injection Extensions [org.eclipse.e4.core.di.extensions 0.17.100.v20210910-0640]
+> Start Eclipse CSS SWT Support [org.eclipse.e4.ui.css.swt 0.14.500.v20220511-1639]
+> Start DBeaver UI [org.jkiss.dbeaver.ui 5.1.101.202207240747]
+> Start Java Native Access [com.sun.jna 5.8.0.v20210503-0343]
+2022-08-05 10:37:25.636 - Configure workbench window
+> Start Help System Core [org.eclipse.help 3.9.100.v20210721-0601]
+2022-08-05 10:37:25.696 - Create actions
+2022-08-05 10:37:25.699 - Disable Eclipse action set 'org.eclipse.ui.edit.text.actionSet.annotationNavigation'
+2022-08-05 10:37:25.700 - Disable Eclipse action set 'org.eclipse.ui.WorkingSetActionSet'
+2022-08-05 10:37:25.700 - Disable Eclipse action set 'org.eclipse.ui.actionSet.openFiles'
+2022-08-05 10:37:25.963 - Initialize workbench window
+2022-08-05 10:37:25.967 - Finish initialization
+> Start Default Text Editor [org.eclipse.ui.editors 3.14.300.v20210913-0815]
+> Start Text Editor Framework [org.eclipse.ui.workbench.texteditor 3.16.500.v20220331-0848]
+> Start DBeaver UI Editors - Data [org.jkiss.dbeaver.ui.editors.data 1.0.86.202207240747]
+> Start DBeaver SQL Model [org.jkiss.dbeaver.model.sql 1.0.76.202207240747]
+> Start DBeaver UI Editors - SQL [org.jkiss.dbeaver.ui.editors.sql 1.0.86.202207240747]
+> Start Core Compare Support [org.eclipse.compare.core 3.7.0.v20220513-0551]
+> Start Equinox Java Authentication and Authorization Service (JAAS) [org.eclipse.equinox.security 1.3.900.v20220108-1321]
+> Start Internet Connection Management UI [org.eclipse.ui.net 1.4.0.v20210426-0838]
+> Start Internet Connection Management [org.eclipse.core.net 1.3.1200.v20220312-1450]
+2022-08-05 10:37:27.202 - Loading user drivers configuration from 'C:\Users\jared\AppData\Roaming\DBeaverData\workspace6\.metadata\.plugins\org.jkiss.dbeaver.core\drivers.xml'
+2022-08-05 10:37:27.214 - Total database drivers: 100 (100)
+> Start DBeaver Sample Database [org.jkiss.dbeaver.ext.sample.database 1.0.123.202207240747]
+> Start DBeaver Tip of the day [org.jkiss.dbeaver.ext.ui.tipoftheday 1.0.92.202207240747]
+> Start Draw2d [org.eclipse.draw2dl 3.12.100.20220506142945]
+> Start GEF3 GEF (MVC) [org.eclipse.gef3 3.12.100.20220506142945]
+> Start DBeaver ERD UI [org.jkiss.dbeaver.erd.ui 3.0.46.202207240747]
+> Start DBeaver ERD Model [org.jkiss.dbeaver.erd.model 1.0.46.202207240747]
+> Start Console [org.eclipse.ui.console 3.11.200.v20220324-0630]
+> Start Debug Core [org.eclipse.debug.core 3.19.100.v20220324-0630]
+2022-08-05 10:37:27.874 - Connect with 'postgres' (postgres-jdbc-18259e84409-2c1091181d29734c)
+> Start DBeaver PostgreSQL Support [org.jkiss.dbeaver.ext.postgresql 2.1.159.202207240747]
+> Start DBeaver GIS Support [org.jkiss.dbeaver.data.gis 1.0.110.202207240747]
+2022-08-05 10:37:28.789 - Execution context opened (postgres; Main <postgres>; 0)
+2022-08-05 10:37:28.790 - Initiate connection to PostgreSQL database [postgres@ja-training-db1.cpfkadssdl4e.us-east-1.rds.amazonaws.com] for Main <postgres>
+2022-08-05 10:37:29.235 - Execution context opened (postgres; Metadata <postgres>; 1)
+2022-08-05 10:37:29.235 - Initiate connection to PostgreSQL database [postgres@ja-training-db1.cpfkadssdl4e.us-east-1.rds.amazonaws.com] for Metadata <postgres>
+2022-08-05 10:37:29.781 - Connected (postgres-jdbc-18259e84409-2c1091181d29734c, PostgreSQL JDBC Driver [42.2.25])
+2022-08-05 10:37:29.800 - No execution context within database instance
+2022-08-05 10:37:29.800 - Execution context opened (postgres; SQLEditor <Script-1.sql>; 2)
+2022-08-05 10:37:29.800 - Initiate connection to PostgreSQL database [JA-Rev@ja-training-db1.cpfkadssdl4e.us-east-1.rds.amazonaws.com] for SQLEditor <Script-1.sql>
+2022-08-05 10:37:29.997 - Open [https://dbeaver.io/product/version.xml]
+2022-08-05 10:37:30.116 - Execution context opened (postgres; Main <JA-Rev>; 3)
+2022-08-05 10:37:30.116 - Initiate connection to PostgreSQL database [JA-Rev@ja-training-db1.cpfkadssdl4e.us-east-1.rds.amazonaws.com] for Main <JA-Rev>
+2022-08-05 10:37:30.551 - Execution context opened (postgres; Metadata <JA-Rev>; 4)
+2022-08-05 10:37:30.551 - Initiate connection to PostgreSQL database [JA-Rev@ja-training-db1.cpfkadssdl4e.us-east-1.rds.amazonaws.com] for Metadata <JA-Rev>
+2022-08-05 10:39:23.293 - Execution context closed (postgres, 2)
+2022-08-05 10:39:23.467 - DBeaver is stopping
+2022-08-05 10:39:23.468 - Stop RMI server
+2022-08-05 10:39:23.469 - RMI controller has been stopped
+2022-08-05 10:39:23.605 - DBeaver shutdown completed
