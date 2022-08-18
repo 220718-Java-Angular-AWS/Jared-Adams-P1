@@ -6,24 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New User Form</title>
 </head>
+<style>
+    html, body {
+        background-color: #8f5ced;
+        height: 40%;
+    }
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {   
+        max-width: 800px;
+        margin: auto;
+
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+}
+</style>
 <body>
     <form onsubmit = "return false">
         <h1>New User</h1>
             <label>First Name: </label>
             <input type="text" placeholder="Enter First Name" id="firstName" required>
-            <br>
+            <br><br>
             <label>Last Name: </label>
             <input type="text" placeholder="Enter Last Name" id="lastName" required>
-            <br>
+            <br><br>
             <label>Email: </label>
-            <input type="text" placeholder="Enter Email" id="email" required>
-            <br>
+            <input type="text" style="width: 200px" placeholder="Enter Email" id="email" required>
+            <br><br>
             <label>Username: </label>
-            <input type="text" placeholder="Enter Username" id="username" required>
-            <br>
+            <input type="text" style="width: 175px" placeholder="Enter Username" id="username" required>
+            <br><br>
             <label>Password: </label>
-            <input type="password" placeholder="Enter Password" id="password" required>
-            <br>
+            <input type="password" style="width: 180px" placeholder="Enter Password" id="password" required>
+            <br><br>
             
     </form> 
     <button type="submit" id="btn" onclick="postEmployee()">Register</button>

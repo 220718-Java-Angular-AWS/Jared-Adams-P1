@@ -6,32 +6,302 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    table, th, td {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    html, body {
+        background-color: #dea543;
+        height: 40%;
+    }
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {   
+        max-width: 800px;
+        margin: auto;
+
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+}
+</style>
 <body>
-    <h1>Edit Request</h1><br>
-    <form action="">
+    <h1>Change Status of Requests</h1><br>
         <label for="Id">Request ID#</label>
         <select name="requestId" id="Id" style="width: 100px"></select>
-        <button type="button" id="submitId" onclick="showRequest()">Edit</button>
-    </form>
-    <br>
-    <label>Title: </label>
-    <input type="text" name="title" id="title" value="" style="width: 500px;">
+        <button type="button" id="submitId" onclick="showRequest()">View</button>
     <br><br>
-    <label>Reimbursement Amount: </label>
-    <input type="number" name="amount" id="amount" min="0" value="" maxlength="100000" step=".01">
+        <label>Employee ID#: </label>
+        <input type="text" name="employeeId" id="employeeIdStatus" value="" readonly>
     <br><br>
-    <label>Message</label>
+        <label>Title: </label>
+        <input type="text" name="title" id="title" value="" style="width: 500px;" readonly>
+    <br><br>
+        <label>Reimbursement Amount: $</label>
+        <input type="number" name="amount" id="amount" min="0" value="" maxlength="100000" step=".01" readonly>
+    <br><br>
+        <label>Message</label>
     <br>
-    <textarea type="text" name="message" rows="6" cols="100" value="" id="message"></textarea>
+        <textarea type="text" name="message" rows="6" cols="100" value="" id="message" readonly></textarea>
     <br>
+    <select id="updateStatus" name="updateStatus">
+        <option value="PENDING">PENDING</option>
+        <option value="APPROVED">APPROVED</option>
+        <option value="DENIED">DENIED</option>
+    </select>
     <button type="button" id="btn" onclick="editRequest()">Submit</button>
-    <button type="button" onclick="returnMainMenu()">Back</button>
+    <button type="button" onclick="mainMenu()">Back</button>
+    <br>
+    <h3>Find Requests</h3>
+        <label>By Request ID#: </label>
+        <select name="viewRequestId"  id="viewRequestId" style="width: 100px"></select>
+        <button type="button" id="myBtn" onclick="getIndividualRequest()">Find</button>
+        <button type="button" onclick="clrIndividual()">Clear</button><br>
+        <h2 id="individualHeader"></h2>
+        <table style="width: 100%" id="individualRequest"></table><br>
+
+
+
+    <label>By Employee ID#: </label>
+    <select name="viewEmployeeId"  id="viewEmployeeId" style="width: 100px"></select>
+        <button type="button" onclick="getEmployeeRequests()">Find</button>
+        <button type="button" onclick="clrEmployee()">Clear</button><br>
+    <h2 id="employeeHeader"></h2>
+    <table style="width: 100%" id="employeeRequestTable"></table><br><br>
+    <form onsubmit="return false">
+        <label>By Status: </label>
+        <select id="viewStatus">
+            <option value="PENDING">PENDING</option>
+            <option value="APPROVED">APPROVED</option>
+            <option value="DENIED">DENIED</option>
+        </select>
+        <button type="button" onclick="getRequestStatus()">Find</button>
+        <button type="button" onclick="clrStatus()">Clear</button>
+    </form>
+    <h2 id="statusHeader"></h2>
+    <table style="width: 100%" id="statusTable"></table><br><br>
+    <form onsubmit="return false">
+        <label>All Requests: </label>
+        <button type="button" onclick="getAllRequests(); clrAll()">Get All</button>
+        <button type="button" onclick="clrAll()">Clear</button>
+    </form>
+    <h2 id="allHeader"></h2>
+    <table style="width: 100%" id="allRequests"></table><br><br>
+    
 </body>
 <script>
+    (async function listRequestId() {
+        let url = "http://localhost:8080/Jared-Adams-P1/request";
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        let array = await response.json();
+        console.log(array)
+        let selector = document.getElementById("viewRequestId");
+        for(let i = 0; i < array.length; i++) {
+            let request = array[i];
+            selector.innerHTML += "<option>" + request.requestId + "</option>"
+        }
+    })();
+
+    (async function listEmployees() {
+        let url = "http://localhost:8080/Jared-Adams-P1/employee";
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        let array = await response.json();
+        console.log(array)
+        let selector = document.getElementById("viewEmployeeId");
+        for(let i = 0; i < array.length; i++) {
+            let employee = array[i];
+            selector.innerHTML += "<option>" + employee.employeeId + "</option>"
+        }
+    })();
+    
+    async function getIndividualRequest() {
+        let requestId = document.getElementById("viewRequestId").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        
+        let request = await response.json()
+        let table = document.getElementById("individualRequest");
+        let header = document.getElementById("individualHeader");
+
+        header.style.textAlign='center'
+        header.innerHTML="Request by Request ID#"
+
+        table.style.border = "1px solid black";
+        table.style.background = "#8fccf2";
+
+        table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+                "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
+                "<th style='border: 1px solid black'>Title</th>" +
+                "<th style='width: 10%; border: 1px solid black'>Reimburesement Amount</th>" +
+                "<th style='border: 1px solid black'>Message</th>" +
+                "<th style='width: 10%; border: 1px solid black'>Status</th></tr>"
+        
+        if(request.requestId != null){
+            table.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
+                "</td><td style='width: 5%; border: 1px solid black'>" + request.requestId + 
+                "</td><td style='border: 1px solid black'>" + request.title + 
+                "</td><td style='width: 10%; border: 1px solid black'>" + request.reimbursementAmount + 
+                "</td><td style='border: 1px solid black'>" + request.message + 
+                "</td><td style='width: 10%; border: 1px solid black'>" + request.status + 
+                "</td></tr>"
+        }else{
+            alert("Request does not exist!")
+            header.innerHTML = "";
+            table.style.border = "none";
+            table.innerHTML = "";
+        }
+        
+        
+    };
+    
+    async function getEmployeeRequests() {        
+        let employeeId = document.getElementById('viewEmployeeId').value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?employee-id=' + employeeId;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+ 
+        let array = await response.json();
+        let table = document.getElementById('employeeRequestTable')
+        let header = document.getElementById("employeeHeader");
+        
+        header.style.textAlign='center'
+        header.innerHTML="Requests by Employee ID#"
+        table.style.border = "1px solid black" ;
+        table.style.background = "#8fccf2";
+            
+        table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+            "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
+            "<th style='width: 20%; border: 1px solid black'>Title</th>" +
+            "<th style='width: 10%; border: 1px solid black'>Reimburesement Amount</th>" +
+            "<th style='border: 1px solid black'>Message</th>" +
+            "<th style='width: 10%; border: 1px solid black'>Status</th></tr>"
+        
+        if(array != 0){            
+            for(let i = 0; i < array.length; i++){
+                let request = array[i];                           
+                table.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
+                "</td><td style='width: 5%; border: 1px solid black'>" + request.requestId + 
+                "</td><td style='border: 1px solid black'>" + request.title + 
+                "</td><td style='width: 10%; border: 1px solid black'>" + request.reimbursementAmount + 
+                "</td><td style='border: 1px solid black'>" + request.message + 
+                "</td><td style='width: 10%; border: 1px solid black'>" + request.status + 
+                "</td></tr>"   
+            }                         
+        }else{
+            alert("Employee has no pending requests!")
+            header.innerHTML = "";
+            table.style.border = "none";
+            table.innerHTML = "";
+        }
+        
+    };
+    
+    async function getRequestStatus() {
+
+        let status = document.getElementById("viewStatus").value;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?status=' + status;
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        
+        let array = await response.json();
+        let table = document.getElementById('statusTable');
+        let header = document.getElementById("statusHeader");
+        
+        header.style.textAlign='center';
+        header.innerHTML="All Requests";
+        table.style.border = "1px solid black" ;
+        table.style.background = "#8fccf2";
+            
+        table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+            "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
+            "<th style='width: 20%; border: 1px solid black'>Title</th>" +
+            "<th style='width: 10%; border: 1px solid black'>Reimburesement Amount</th>" +
+            "<th style='border: 1px solid black'>Message</th>" +
+            "<th style='width: 10%; border: 1px solid black'>Status</th></tr>"
+        if(array != 0) {
+            for(let i = 0; i < array.length; i++){
+            let request = array[i];
+            table.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
+            "</td><td style='width: 5%; border: 1px solid black'>" + request.requestId + 
+            "</td><td style='border: 1px solid black'>" + request.title + 
+            "</td><td style='width: 10%; border: 1px solid black'>" + request.reimbursementAmount + 
+            "</td><td style='border: 1px solid black'>" + request.message + 
+            "</td><td style='width: 10%; border: 1px solid black'>" + request.status + 
+            "</td></tr>"
+        }
+        }else {
+            alert("There are no pending requests!")
+            header.innerHTML = "";
+            table.style.border = "none";
+            table.innerHTML = "";
+        }   
+    }
+    async function getAllRequests() {
+        let url = 'http://localhost:8080/Jared-Adams-P1/request';
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+ 
+        let array = await response.json();
+        let table = document.getElementById('allRequests')
+        let header = document.getElementById("allHeader");
+
+        header.style.textAlign='center'
+        header.innerHTML="All Requests"
+        table.style.border = "1px solid black" ;
+        table.style.background = "#8fccf2";
+            
+        table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
+            "<th style='width: 5%; border: 1px solid black'>Request ID#</th>" +
+            "<th style='width: 20%; border: 1px solid black'>Title</th>" +
+            "<th style='width: 10%; border: 1px solid black'>Reimburesement Amount</th>" +
+            "<th style='border: 1px solid black'>Message</th>" +
+            "<th style='width: 10%; border: 1px solid black'>Status</th></tr>"
+        for(let i = 0; i < array.length; i++){
+            let request = array[i];
+            table.innerHTML += "<tr><td style='width: 5%; border: 1px solid black'>" + request.employeeId + 
+            "</td><td style='width: 5%; border: 1px solid black'>" + request.requestId + 
+            "</td><td style='border: 1px solid black'>" + request.title + 
+            "</td><td style='width: 10%; border: 1px solid black'>" + request.reimbursementAmount + 
+            "</td><td style='border: 1px solid black'>" + request.message + 
+            "</td><td style='width: 10%; border: 1px solid black'>" + request.status + 
+            "</td></tr>"
+        }
+    };
     (async function selectRequest() {
-        let currentEmployeeId = window.localStorage.getItem('userId');
-        let currentEmployeeStatus = localStorage.getItem('admin');
-        let url = 'http://localhost:8080/Jared-Adams-P1/request?employee-id=' + currentEmployeeId;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request';
         let response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -43,18 +313,16 @@
         let selector = document.getElementById("Id");
         for(let i = 0; i < array.length; i++){
             let request = array[i];
+            
             selector.innerHTML += "<option>" + request.requestId + "</option>";
         }
-
+        
         
     })();
 
     async function showRequest() {
-        
-        let currentEmployeeId = window.localStorage.getItem('userId');
-        let currentEmployeeStatus = localStorage.getItem('admin');
         let requestId = document.getElementById("Id").value;
-        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId + "&employee-id=" + currentEmployeeId;
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId;
         let response = await fetch(url, {
             method: 'GET',
             headers:{
@@ -62,13 +330,73 @@
             }
         });
         let request = await response.json();
-        console.log("made it here");
+        
+        document.getElementsByName('employeeId')[0].value= request.employeeId;
         document.getElementsByName('title')[0].value= request.title;
         document.getElementsByName('amount')[0].value= request.reimbursementAmount;
         document.getElementsByName('message')[0].value= request.message;
+        document.getElementsByName('updateStatus')[0].value = request.status;
 
     }
-    
+    async function editRequest() {
+        
+        let requestId = document.getElementById("Id").value;
+        let approval = document.getElementById("updateStatus").value;
+        let request = {
+            title: document.getElementById("title").value,
+            reimbursementAmount: document.getElementById("amount").value,
+            message: document.getElementById("message").value,
+            status: document.getElementById("updateStatus").value
+        }
+                
+        let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId + "&status=" + approval;
+        let response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify(request)
 
+            
+        });
+        if(response.status == 200) {
+            alert("Request Updated");
+        }else{
+            alert("Failed to update");
+        }
+                
+    }
+    async function clrIndividual(){
+        let request = document.getElementById("individualRequest");
+        let header = document.getElementById("individualHeader");
+        header.innerHTML = "";
+        request.style.border = "none";
+        request.innerHTML = "";
+    }
+    async function clrEmployee() {
+        let request = document.getElementById("employeeRequestTable");
+        let header = document.getElementById("employeeHeader");
+        header.innerHTML = "";
+        request.style.border = "none";
+        request.innerHTML = "";
+    }
+    async function clrAll() {
+        let request = document.getElementById("allRequests");
+        let header = document.getElementById("allHeader");
+        header.innerHTML = "";
+        request.style.border = "none";
+        request.innerHTML = "";
+    }
+   
+    async function clrStatus(){
+        let request = document.getElementById("statusTable");
+        let header = document.getElementById("statusHeader");
+        header.innerHTML = "";
+        request.style.border = "none";
+        request.innerHTML = "";
+    }
+     async function mainMenu(){
+        location.href = "file:///C:/Revature/Jared-Adams-P1/UI/Admin/adminMenu.html";
+    }
 </script>
 </html>

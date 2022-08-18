@@ -6,6 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    table, th, td {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    html, body {
+        background-color: #f58002;
+        height: 40%;
+    }
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {   
+        max-width: 800px;
+        margin: auto;
+
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+}
+</style>
 <body>
     <form onsubmit="return false">
         <h1>New Request</h1>
@@ -21,8 +46,9 @@
         <textarea type="text" rows="6" cols="100" id="message" required></textarea>
         <br>
         <button type="submit" id="btn" onclick="newRequest()">Submit</button>
+        <button type="button" onclick="returnMainMenu()">Back</button>
     </form>
-    <button type="button" onclick="returnMainMenu()">Back</button>
+    
 </body>
 <script>
     let currentEmployeeId = window.localStorage.getItem('userId');

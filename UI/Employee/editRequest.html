@@ -12,6 +12,24 @@
         margin-right: auto;
         text-align: center;
     }
+    html, body {
+        background-color: #f58002;
+        height: 40%;
+    }
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {   
+        max-width: 800px;
+        margin: auto;
+
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+}
 </style>
 <body>
     <h1>Edit Request</h1><br>
@@ -22,7 +40,7 @@
     </form>
     <br>
     <label>Title: </label>
-    <input type="text" name="title" id="title" value="" style="width: 500px;">
+    <input type="text" name="title" id="title" value="" style="width: 500px">
     <br><br>
     <label>Reimbursement Amount: </label>
     <input type="number" name="amount" id="amount" min="0" value="" maxlength="100000" step=".01">
@@ -48,20 +66,17 @@
         });
         
         let array = await response.json();
+        console.log(array)
         let selector = document.getElementById("Id");
         for(let i = 0; i < array.length; i++){
-            let request = array[i];
-            
-            selector.innerHTML += "<option>" + request.requestId + "</option>";
+                let request = array[i];
+                if(request.status == "PENDING") {
+                    selector.innerHTML += "<option>" + request.requestId + "</option>";
+                }  
         }
-        
-        
     })();
 
     async function showRequest() {
-        
-        let currentEmployeeId = window.localStorage.getItem('userId');
-        let currentEmployeeStatus = localStorage.getItem('admin');
         let requestId = document.getElementById("Id").value;
         let url = 'http://localhost:8080/Jared-Adams-P1/request?request-id=' + requestId + "&employee-id=" + currentEmployeeId;
         let response = await fetch(url, {
@@ -71,7 +86,6 @@
             }
         });
         let request = await response.json();
-        console.log("made it here");
         document.getElementsByName('title')[0].value= request.title;
         document.getElementsByName('amount')[0].value= request.reimbursementAmount;
         document.getElementsByName('message')[0].value= request.message;
@@ -101,7 +115,7 @@
         }else{
             alert("Failed to update");
         }
-        location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/editRequest.html';
+        //location.href = 'file:///C:/Revature/Jared-Adams-P1/UI/Employee/editRequest.html';
         
     }
     async function returnMainMenu() {

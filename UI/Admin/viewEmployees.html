@@ -6,25 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Employees</title>
 </head>
-<body>
-    <form onsubmit="return false">
-        <h3>Find Employee by ID#</h3>
-        <label>Enter Employee ID#: </label>
-        <input type="number" placeholder="ID#" id="employeeId" required>
-        <button type="submit" id="myBtn" onclick="viewIndividualEmployee(); clrEmployee()">Find</button>
-        <button type="button" onclick="clrEmployee()">Clear</button>
-        <button type="button" onclick="getEmployee(); clrList()">Find All</button>
-        <button type="button" onclick="clrList()">Clear All</button>
-    </form>
+<style>
+    table, th, td {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    html, body {
+        background-color: #dea543;
+        height: 40%;
+    }
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {   
+        max-width: 800px;
+        margin: auto;
+
+        padding: 10px;
+        display: table-cell;
+        vertical-align: middle;
+}
+</style>
+<body>    
+    <h3>Find Employee by ID#</h3>
+    <label>Enter Employee ID#: </label>
+    <select name="employeeId" id="employeeId" style="width: 100px"></select>
+    <button type="submit" id="myBtn" onclick="viewIndividualEmployee(); clrEmployee()">Find</button>
+    <button type="button" onclick="clrEmployee()">Clear</button>
+    <button type="button" onclick="getAllEmployees(); clrList()">Find All</button>
+    <button type="button" onclick="clrList()">Clear All</button>    
     <br>
-    <table id="individualEmployee"></table><br><br>
-    <table id="employeeTable"></table>
+    <h2 id="individualHeader"></h2>
+    <table id="individualEmployee" style="width: 100%"></table><br><br>
+    <h2 id="allHeader"></h2>
+    <table id="employeeTable" style="width: 100%"></table>
     <button type="submit" onclick="returnMainMenu()">Back</button>
 </body>
 <script>
+    (async function listEmployees() {
+        let url = "http://localhost:8080/Jared-Adams-P1/employee";
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+        let array = await response.json();
+        console.log(array)
+        let selector = document.getElementById("employeeId");
+        for(let i = 0; i < array.length; i++) {
+            let employee = array[i];
+            selector.innerHTML += "<option>" + employee.employeeId + "</option>"
+        }
+    })();
     
-    async function getEmployee() {
-       
+    async function getAllEmployees() {       
         let url = 'http://localhost:8080/Jared-Adams-P1/employee';
         let response = await fetch(url, {
             method: 'GET',
@@ -35,23 +75,29 @@
             
             let array = await response.json();
             let table = document.getElementById('employeeTable');
+            let header = document.getElementById("allHeader");
+
+            header.style.textAlign='center';
+            header.innerHTML="All Employees";
+
             table.style.border = "1px solid black";
             table.style.background = "#8fccf2";
             
-            table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
-            "<th style='width: 5%; border: 1px solid black'>First Name</th>" +
-            "<th style='width: 20%; border: 1px solid black'>Last Name</th>" +
-            "<th style='width: 10%; border: 1px solid black'>Email</th>" +
-            "<th style='border: 1px solid black'>Username</th></tr>"
+            table.innerHTML = "<tr><th style='border: 1px solid black'>Employee ID#</th>" +
+            "<th style='border: 1px solid black'>First Name</th>" +
+            "<th style='border: 1px solid black'>Last Name</th>" +
+            "<th style='border: 1px solid black'>Email</th>" +
+            "<th style='border: 1px solid black'>Username</th>" +
+            "<th style='width: 10%; border: 1px solid black'>Admin</th></tr>"
 
             for(let i = 0; i < array.length; i++){
                 let employee = array[i];
-                table.innerHTML += "<tr><th style='width: 5%; border: 1px solid black'>" + employee.employeeId +
-                "</th><th style='width: 5%; border: 1px solid black'>" + employee.firstName + 
-                "</th> <th style='border: 1px solid black'>" + employee.lastName +
-                "</th><th style='width: 10%; border: 1px solid black'>" + employee.email +
-                "</th><th style='border: 1px solid black'>" + employee.username +
-                "</th></tr>"
+                table.innerHTML += "<tr><td style='border: 1px solid black'>" + employee.employeeId +
+                "</td><td style='border: 1px solid black'>" + employee.firstName + 
+                "</td><td style='border: 1px solid black'>" + employee.lastName +
+                "</td><td style='border: 1px solid black'>" + employee.email +
+                "</td><td style='border: 1px solid black'>" + employee.username +
+                "</td><td style='border: 1px solid black'>" + employee.admin+ "</td></tr>"
             }
     };
     
@@ -68,24 +114,29 @@
         
         let employee = await response.json();
         let table = document.getElementById('individualEmployee');
+        let header = document.getElementById("individualHeader");
+
+        header.style.textAlign='center'
+        header.innerHTML="Employee By ID#"
         
     
         table.style.border = "1px solid black";
         table.style.background = "#8fccf2";
             
-        table.innerHTML = "<tr><th style='width: 5%; border: 1px solid black'>Employee ID#</th>" +
-        "<th style='width: 5%; border: 1px solid black'>First Name</th>" +
-        "<th style='width: 20%; border: 1px solid black'>Last Name</th>" +
-        "<th style='width: 10%; border: 1px solid black'>Email</th>" +
-        "<th style='border: 1px solid black'>Username</th></tr>"
+        table.innerHTML = "<tr><th style='border: 1px solid black'>Employee ID#</th>" +
+        "<th style='border: 1px solid black'>First Name</th>" +
+        "<th style='border: 1px solid black'>Last Name</th>" +
+        "<th style='border: 1px solid black'>Email</th>" +
+        "<th style='border: 1px solid black'>Username</th>" +
+        "<th style='width: 10%; border: 1px solid black'>Admin</th></tr>"
         
         if(employee.firstName != null){
-            table.innerHTML += "<tr><th style='width: 5%; border: 1px solid black'>" + employee.employeeId +
-                "</th><th style='width: 5%; border: 1px solid black'>" + employee.firstName + 
-                "</th> <th style='border: 1px solid black'>" + employee.lastName +
-                "</th><th style='width: 10%; border: 1px solid black'>" + employee.email +
-                "</th><th style='border: 1px solid black'>" + employee.username +
-                "</th></tr>"
+            table.innerHTML += "<tr><td style='border: 1px solid black'>" + employee.employeeId +
+                "</td><td style='border: 1px solid black'>" + employee.firstName + 
+                "</td><td style='border: 1px solid black'>" + employee.lastName +
+                "</td><td style='border: 1px solid black'>" + employee.email +
+                "</td><td style='border: 1px solid black'>" + employee.username +
+                "</td><td style='border: 1px solid black'>" + employee.admin+ "</td></tr>"
             
         }else{
             alert("Employee does not exist!")
@@ -98,12 +149,16 @@
 
     async function clrList() {
         let table = document.getElementById("employeeTable");
+        let header = document.getElementById("allHeader");
+        header.innerHTML = "";
         table.style.border = "none";
         table.innerHTML = "";
     }
     
     async function clrEmployee(){
         let table = document.getElementById("individualEmployee");
+        let header = document.getElementById("individualHeader");
+        header.innerHTML = "";
         table.style.border = "none";
         table.innerHTML = "";
 

@@ -52,7 +52,7 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
     public Employee read(int id) {
         Employee employee = new Employee();
         try {
-            String sql = "SELECT * FROM employees WHERE employee_id = ?";
+            String sql = "SELECT * FROM employees WHERE employee_id = ? ORDER BY employee_id";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, id);
             ResultSet results = pstmt.executeQuery();
@@ -76,7 +76,7 @@ public class EmployeeDAO implements DataSourceCRUD<Employee> {
     public List<Employee> readALL() {
         List<Employee> employeeList = new LinkedList<>();
         try {
-            String sql = "SELECT * FROM employees";
+            String sql = "SELECT * FROM employees ORDER BY employee_id";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             ResultSet results = pstmt.executeQuery();
 

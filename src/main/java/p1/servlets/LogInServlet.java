@@ -32,11 +32,8 @@ public class LogInServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String credentials = req.getParameter("credentials");
         String password = req.getParameter("password");
-
         Employee authenticateEmployee = service.logIn(credentials, password);
-
         String json = mapper.writeValueAsString(authenticateEmployee);
-
         resp.getWriter().println(json);
 
         resp.setStatus(200);

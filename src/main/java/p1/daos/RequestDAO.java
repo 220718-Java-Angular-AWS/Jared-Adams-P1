@@ -46,7 +46,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     public Request read(int id) {
         Request request = new Request();
         try{
-            String sql = "SELECT * FROM requests WHERE request_id = ?";
+            String sql = "SELECT * FROM requests WHERE request_id = ? ORDER BY request_id";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, id);
             ResultSet results = pstmt.executeQuery();
@@ -69,7 +69,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     public List<Request> readStatus(String status){
         List<Request> requestList = new LinkedList<>();
         try {
-            String sql = "SELECT * FROM requests WHERE status = ?";
+            String sql = "SELECT * FROM requests WHERE status = ? ORDER BY employee_id";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, status);
             ResultSet results = pstmt.executeQuery();
@@ -92,7 +92,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     public List<Request> readALL() {
         List<Request> requestList = new LinkedList<>();
         try{
-            String sql = "SELECT * FROM requests";
+            String sql = "SELECT * FROM requests ORDER BY request_id";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             ResultSet results = pstmt.executeQuery();
 
@@ -115,10 +115,11 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     public Request getSingleRequestForEmployee(Integer requestId, Integer employeeId){
         Request request = new Request();
         try{
-            String sql = "SELECT * FROM requests WHERE request_id = ? AND employee_id = ?";
+            String sql = "SELECT * FROM requests WHERE request_id = ? AND employee_id = ? AND status = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, requestId);
             pstmt.setInt(2, employeeId);
+            pstmt.setString(3,"PENDING");
             ResultSet results = pstmt.executeQuery();
 
             if(results.next()) {
@@ -138,7 +139,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
     public List<Request> readRequestsByEmployee(Integer id){
         List<Request> requestList = new LinkedList<>();
         try{
-            String sql = "SELECT * FROM requests WHERE employee_id = ?";
+            String sql = "SELECT * FROM requests WHERE employee_id = ? ORDER BY status DESC";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, id);
             ResultSet results = pstmt.executeQuery();
@@ -160,6 +161,30 @@ public class RequestDAO implements DataSourceCRUD<Request> {
         }
 
         return requestList;
+    }
+
+    public Request employeeReadSingleRequest(Integer requestId, Integer employeeId){
+        Request request = new Request();
+        try{
+            String sql = "SELECT * FROM requests WHERE request_id = ? AND employee_id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, requestId);
+            pstmt.setInt(2, employeeId);
+            ResultSet results = pstmt.executeQuery();
+
+            if(results.next()) {
+                request.setRequestId(results.getInt("request_id"));
+                request.setTitle(results.getString("title"));
+                request.setReimbursementAmount(results.getFloat("reimbursement_amount"));
+                request.setMessage(results.getString("message"));
+                request.setEmployeeId(results.getInt("employee_id"));
+                request.setStatus(results.getString("status"));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return request;
     }
 
 
@@ -188,8 +213,7 @@ public class RequestDAO implements DataSourceCRUD<Request> {
 
     public void update(Request request, Integer requestId, Integer employeeId) {
         try{
-            String sql = "UPDATE requests SET title = ?, reimbursement_amount = ?, message = ?, " +
-                    "status = false WHERE request_id = ? AND employee_id = ?";
+            String sql = "UPDATE requests SET title = ?, reimbursement_amount = ?, message = ? WHERE request_id = ? AND employee_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, request.getTitle());
             pstmt.setFloat(2, request.getReimbursementAmount());
